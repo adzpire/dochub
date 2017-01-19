@@ -29,6 +29,7 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
     {
         return 'form_auto_brmn';
     }
+    const CHOICE_ARR = ['1'=>'ไปราชการ','2'=>'ค่าวัสดุตามหนังสืออนุมัติ','3'=>'เงินอื่นๆ'];
 public $brmnStName; 
 /*add rule in [safe]
 'brmnStName', 
@@ -60,8 +61,8 @@ $query->joinWith(['brmnSt', ]);*/    /**
             'brmn_borrow' => 'จำนวนยืม',
             'brmn_choice' => 'เหตุผล',
             'brmn_other' => 'อื่น',
-            'brmn_title' => 'ราชการ-หัวข้อ',
-            'brmn_place' => 'ราชการ-สถานที่',
+            'brmn_title' => 'ราชการ-เรื่อง',
+            'brmn_place' => 'ราชการ-ที่',
             'brmn_bdate' => 'ราชการ-วันเริ่มต้น',
             'brmn_edate' => 'ราชการ-วันสิ้นสุด',
         ];

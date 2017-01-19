@@ -117,6 +117,7 @@ class BorrowmoneyController extends Controller
 
             return $this->render('create', [
                 'model' => $model,
+                'choicearr' => FormAutoBrmn::CHOICE_ARR,
             ]);
         
 

@@ -17,7 +17,7 @@ class DefaultController extends Controller
     public $checkperson;
     public $moduletitle;
     public function beforeAction(){
-        //$this->checkperson = Person::findOne([Yii::$app->user->id]);
+//        $this->checkperson = Person::findOne([Yii::$app->user->id]);
         $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
         return true;
     }
@@ -25,7 +25,7 @@ class DefaultController extends Controller
     {
         Yii::$app->view->title = Yii::t('app', 'ฟอร์มอัตโนมัติ');
 
-        $searchModel = new FormAutoSessionSearch(['created_by' => 19]);
+        $searchModel = new FormAutoSessionSearch(['created_by' => Yii::$app->user->id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
