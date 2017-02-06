@@ -5,6 +5,11 @@ namespace backend\modules\dochub\controllers;
 use Yii;
 use backend\modules\dochub\models\FormAutoBrmn;
 use backend\modules\dochub\models\FormAutoBrmnSearch;
+
+use backend\modules\person\models\Person;
+
+use backend\modules\intercom\models\MainIntercom;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -89,11 +94,11 @@ class BorrowmoneyController extends Controller
 		 
         $model = new FormAutoBrmn();
 
-		/* if enable ajax validate
+		/* if enable ajax validate*/
 		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
 			Yii::$app->response->format = Response::FORMAT_JSON;
 			return ActiveForm::validate($model);
-		}*/
+		}
 		
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
@@ -115,8 +120,11 @@ class BorrowmoneyController extends Controller
             print_r($model->getErrors());exit;
         }
 
+        $qstaff = Person::getPersonList();
+
             return $this->render('create', [
                 'model' => $model,
+                'staff' => $qstaff,
                 'choicearr' => FormAutoBrmn::CHOICE_ARR,
             ]);
         
@@ -133,10 +141,14 @@ class BorrowmoneyController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ {modelClass}: ', [
-    'modelClass' => 'Form Auto Brmn',
-]) . $model->brmn_id.' - '.$this->moduletitle;
-		 
+		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ '). FormAutoBrmn::MODEL_NAME .' หมายเลข: '. $model->brmn_id.' - '.$this->moduletitle;
+
+        /* if enable ajax validate*/
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
 				Yii::$app->getSession()->setFlash('edtflsh', [
@@ -155,10 +167,19 @@ class BorrowmoneyController extends Controller
 				]);
 			}
             return $this->redirect(['view', 'id' => $model->brmn_id]);
-        } 
+        }
+
+        $qstaff = Person::getPersonList();
+
+        $intmdl = MainIntercom::find()
+            ->where(['staff_id' => $model->brmn_stid])
+            ->one();
 
             return $this->render('update', [
                 'model' => $model,
+                'staff' => $qstaff,
+                'intmdl' => $intmdl,
+                'choicearr' => FormAutoBrmn::CHOICE_ARR,
             ]);
         
 
@@ -184,6 +205,19 @@ class BorrowmoneyController extends Controller
 
         return $this->redirect(['index']);
     }
+    public function actionPrint($id)
+    {
+        $model = $this->findModel($id);
+
+        $intmdl = MainIntercom::find()
+            ->where(['staff_id' => $model->brmn_stid])
+            ->one();
+
+        return $this->renderPartial('print', [
+            'model' => $model,
+            'intmdl' => $intmdl,
+        ]);
+    }
 
     /**
      * Finds the FormAutoBrmn model based on its primary key value.
@@ -198,6 +232,23 @@ class BorrowmoneyController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('ไม่พบหน้าที่ต้องการ.');
+        }
+    }
+
+    public function actionPosinfo($id)
+    {
+        $model = Person::find()
+            ->where(['user_id' => $id])
+            ->one();
+        $intmdl = MainIntercom::find()
+            ->where(['staff_id' => $id])
+            ->one();
+        if ($model !== null) {
+            $array = array($model->position->name_th, $intmdl->number);
+            echo json_encode($array);
+            //return [$model->position->name_th, $model->staff->tel];
+        }else{
+            echo json_encode(['-','-']);
         }
     }
 }

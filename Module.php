@@ -2,6 +2,7 @@
 
 namespace backend\modules\dochub;
 
+use Yii;
 /**
  * dochub module definition class
  */
@@ -17,10 +18,10 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-		/*
+
 		Yii::$app->formatter->locale = 'th_TH';
 		Yii::$app->formatter->calendar = \IntlDateFormatter::TRADITIONAL;
-		
+		/*
 		 if (!isset(Yii::$app->i18n->translations['repair'])) {
             Yii::$app->i18n->translations['repair'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
@@ -33,7 +34,7 @@ class Module extends \yii\base\Module
 
 		$this->layout = 'dochub';
 		$this->params['ModuleVers'] = '1.0.0';
-		$this->params['title'] = 'dochub';
+		$this->params['title'] = 'ฐานข้อมูลเอกสารและแบบฟอร์มออนไลน์';
         // custom initialization code goes here
     }
 }

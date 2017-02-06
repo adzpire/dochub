@@ -6,6 +6,8 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+
+use backend\modules\person\models\Person;
 /**
  * This is the model class for table "form_auto_session".
  *
@@ -47,8 +49,8 @@ $query->joinWith(['createdBy', 'updatedBy', ]);*/    /**
     public function rules()
     {
         return [
-            [['fss_fid', 'fss_type', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'required'],
-            [['fss_fid', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['fss_fid', 'fss_type'], 'required'],
+            [['fss_fid'], 'integer'],
             [['fss_type'], 'string', 'max' => 255],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['created_by' => 'user_id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['updated_by' => 'user_id']],

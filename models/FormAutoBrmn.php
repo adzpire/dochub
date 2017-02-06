@@ -4,6 +4,8 @@ namespace backend\modules\dochub\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use backend\modules\dochub\models\FormAutoSession;
+use backend\modules\person\models\Person;
 /**
  * This is the model class for table "form_auto_brmn".
  *
@@ -29,12 +31,90 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
     {
         return 'form_auto_brmn';
     }
+
     const CHOICE_ARR = ['1'=>'ไปราชการ','2'=>'ค่าวัสดุตามหนังสืออนุมัติ','3'=>'เงินอื่นๆ'];
-public $brmnStName; 
-/*add rule in [safe]
-'brmnStName', 
-join in searh()
-$query->joinWith(['brmnSt', ]);*/    /**
+    const MODEL_NAME = 'ขออนุมัติยืมเงินรายได้มหาวิทยาลัย';
+    public $brmnStName;
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+
+            if($this->brmn_choice == 3){
+//                $this->brmn_other = NULL;
+                $this->brmn_title = NULL;
+                $this->brmn_place = NULL;
+                $this->brmn_bdate = NULL;
+                $this->brmn_edate = NULL;
+            }
+
+            if($this->brmn_choice == 2){
+                $this->brmn_other = NULL;
+                $this->brmn_title = NULL;
+                $this->brmn_place = NULL;
+                $this->brmn_bdate = NULL;
+                $this->brmn_edate = NULL;
+            }
+
+            if($this->brmn_choice == 1){
+                $this->brmn_other = NULL;
+//                $this->brmn_title = NULL;
+//                $this->brmn_place = NULL;
+//                $this->brmn_bdate = NULL;
+//                $this->brmn_edate = NULL;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if ($insert) {
+
+//        $month= "+".$this->duration_in_months." month";
+//        $this->exp_date=date("Y-m-d H:i:s",strtotime($month));
+//        $this->save(['exp_date']);
+            $ssmdl = new FormAutoSession();
+            $ssmdl->fss_fid = $this->brmn_id;
+            $ssmdl->fss_type = 'formAutoBrmn';
+            //$ssmdl->save();
+            if($ssmdl->save()){
+            }else{
+                print_r($ssmdl->getErrors());exit;
+            }
+        }else{
+            $ssmdl = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => 'formAutoBrmn'])->one();
+            $ssmdl->updated_at = null;
+            $ssmdl->updated_by = null;
+            $ssmdl->save();
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+//            if (($model = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => 'formAutoBrmn'])->one()) !== null) {
+//                $model->delete();
+//            } else {
+//                throw new NotFoundHttpException('cannotdelsession');
+//            }
+
+//            return true;
+            $model = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => 'formAutoBrmn'])->one();
+            $model->delete();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /*add rule in [safe]
+    'brmnStName',
+    join in searh()
+    $query->joinWith(['brmnSt', ]);*/    /**
      * @inheritdoc
      */
     public function rules()
@@ -46,6 +126,18 @@ $query->joinWith(['brmnSt', ]);*/    /**
             [['brmn_bdate', 'brmn_edate'], 'safe'],
             [['brmn_place'], 'string', 'max' => 255],
             [['brmn_stid'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['brmn_stid' => 'user_id']],
+            [
+                ['brmn_other'], 'required', 'when' => function ($model) {
+                return $model->brmn_choice == '3';
+                },
+                'whenClient' => "function (attribute, value) { return $('#ptype').val() == '3'; }",
+            ],
+            [
+                ['brmn_title', 'brmn_place', 'brmn_bdate', 'brmn_edate'], 'required', 'when' => function ($model) {
+                return $model->brmn_choice == '1';
+            },
+                'whenClient' => "function (attribute, value) { return $('#ptype').val() == '1'; }",
+            ],
         ];
     }
 
@@ -71,6 +163,9 @@ $query->joinWith(['brmnSt', ]);*/    /**
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSs(){
+        return $this->hasOne(FormAutoSession::className(), ['fss_fid' => 'brmn_id'])->where(['fss_type' => 'formAutoBrmn']);
+    }
     public function getBrmnSt()
     {
         return $this->hasOne(Person::className(), ['user_id' => 'brmn_stid']);
