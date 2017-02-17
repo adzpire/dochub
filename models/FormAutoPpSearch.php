@@ -5,12 +5,12 @@ namespace backend\modules\dochub\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\modules\dochub\models\FormAutoBrmn;
+use backend\modules\dochub\models\FormAutoPp;
 
 /**
- * FormAutoBrmnSearch represents the model behind the search form about `backend\modules\dochub\models\FormAutoBrmn`.
+ * FormAutoPpSearch represents the model behind the search form about `backend\modules\dochub\models\FormAutoPp`.
  */
-class FormAutoBrmnSearch extends FormAutoBrmn
+class FormAutoPpSearch extends FormAutoPp
 {
     /**
      * @inheritdoc
@@ -43,8 +43,8 @@ class FormAutoBrmnSearch extends FormAutoBrmn
     public function rules()
     {
         return [
-            [['brmn_id', 'brmn_stid', 'brmn_salary', 'brmn_borrow', 'brmn_choice'], 'integer'],
-            [['brmn_other', 'brmn_title', 'brmn_place', 'brmn_bdate', 'brmn_edate'], 'safe'],
+            [['pp_id', 'pp_accountnum', 'pp_stid', 'pp_jid'], 'integer'],
+            [['pp_actname', 'pp_bdate', 'pp_edate'], 'safe'],
         ];
     }
 
@@ -66,18 +66,12 @@ class FormAutoBrmnSearch extends FormAutoBrmn
      */
     public function search($params)
     {
-        $query = FormAutoBrmn::find();
+        $query = FormAutoPp::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'brmn_id' => SORT_DESC,
-                    //'title' => SORT_ASC,
-                ]
-            ],
         ]);
 
         $this->load($params);
@@ -90,18 +84,15 @@ class FormAutoBrmnSearch extends FormAutoBrmn
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'brmn_id' => $this->brmn_id,
-            'brmn_stid' => $this->brmn_stid,
-            'brmn_salary' => $this->brmn_salary,
-            'brmn_borrow' => $this->brmn_borrow,
-            'brmn_choice' => $this->brmn_choice,
-            'brmn_bdate' => $this->brmn_bdate,
-            'brmn_edate' => $this->brmn_edate,
+            'pp_id' => $this->pp_id,
+            'pp_accountnum' => $this->pp_accountnum,
+            'pp_bdate' => $this->pp_bdate,
+            'pp_edate' => $this->pp_edate,
+            'pp_stid' => $this->pp_stid,
+            'pp_jid' => $this->pp_jid,
         ]);
 
-        $query->andFilterWhere(['like', 'brmn_other', $this->brmn_other])
-            ->andFilterWhere(['like', 'brmn_title', $this->brmn_title])
-            ->andFilterWhere(['like', 'brmn_place', $this->brmn_place]);
+        $query->andFilterWhere(['like', 'pp_actname', $this->pp_actname]);
 
         return $dataProvider;
     }

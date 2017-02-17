@@ -10,6 +10,11 @@ use kartik\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerCss("
+.grid-view td {
+    white-space: unset;
+}
+");
 ?>
 <div class="form-auto-brmn-index">
 
@@ -22,27 +27,65 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            'brmn_id',
-            'brmn_stid',
-            'brmn_salary',
-            'brmn_borrow',
-            'brmn_choice',
-            // 'brmn_other:ntext',
-            // 'brmn_title:ntext',
+            [
+                'attribute' => 'brmn_id',
+                'headerOptions' => [
+                    'width' => '50px',
+                ],
+            ],
+            //'brmn_stid',
+            //'brmn_salary',
+            //'brmn_choice',
+            [
+                'attribute' => 'brmn_choice',
+                'value' => function ($model) {
+                    return $model->Showchoice($model->brmn_choice);
+                },
+                'filter'=> $choicearr,
+                'format' => ['html']
+            ],
+            [
+                'attribute' => 'brmn_borrow',
+                'headerOptions' => [
+                    'width' => '100px',
+                ],
+            ],
+            [
+                'attribute' => 'brmn_other',
+                'format' => 'raw',
+                'value' => 'brmn_other',
+                //'contentOptions'=>['style'=>'max-width: 250px'] // <-- right here
+            ],
+            [
+                'attribute' => 'brmn_title',
+                'format' => 'raw',
+                'value' => 'brmn_title',
+                //'contentOptions'=>['style'=>'max-width: 250px'] // <-- right here
+            ],
             // 'brmn_place',
             // 'brmn_bdate',
             // 'brmn_edate',
-				[
-					'class' => 'yii\grid\ActionColumn',
-					/*'visibleButtons' => [
-						'view' => Yii::$app->user->id == 122,
-						'update' => Yii::$app->user->id == 19,
-						'delete' => function ($model, $key, $index) {
-										return $model->status === 1 ? false : true;
-									}
-						],
-					'visible' => Yii::$app->user->id == 19,*/
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{update}  {print}',
+				'buttons' => [
+					'update' => function ($url, $model, $key) {
+						//return Html::a('<i class="glyphicon glyphicon-ok-circle"></i>',$url);
+						return Html::a(' '.Html::icon('pencil').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'แก้ไข']);
+					},
+					'print' => function ($url, $model, $key) {
+						//return Html::a('<i class="glyphicon glyphicon-ok-circle"></i>',$url);
+						return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'พิมพ์', 'target'=>'_blank']);
+					},
 				],
+				'headerOptions' => [
+					'width' => '70px',
+				],
+				'contentOptions' => [
+					'class'=>'text-center',
+				],
+				//'header' => 'จัดการ',
+			],
         ],
 		'pager' => [
 			'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
@@ -52,8 +95,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'hover'=>true,
 		'toolbar'=> [
 			['content'=>
-				Html::a(Html::icon('plus'), ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
-				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
+				Html::a(Html::icon('plus').' สร้างแบบฟอร์มใหม่ ', ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]),
+				//Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
 			],
 			//'{export}',
 			'{toggleData}',

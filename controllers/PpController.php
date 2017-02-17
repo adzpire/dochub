@@ -3,13 +3,8 @@
 namespace backend\modules\dochub\controllers;
 
 use Yii;
-use backend\modules\dochub\models\FormAutoBrmn;
-use backend\modules\dochub\models\FormAutoBrmnSearch;
-
-use backend\modules\person\models\Person;
-
-use backend\modules\intercom\models\MainIntercom;
-
+use backend\modules\dochub\models\FormAutoPp;
+use backend\modules\dochub\models\FormAutoPpSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -22,9 +17,9 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 
 /**
- * BorrowmoneyController implements the CRUD actions for FormAutoBrmn model.
+ * PpController implements the CRUD actions for FormAutoPp model.
  */
-class BorrowmoneyController extends Controller
+class PpController extends Controller
 {
     /**
      * @inheritdoc
@@ -50,37 +45,25 @@ class BorrowmoneyController extends Controller
     }
 	 
     /**
-     * Lists all FormAutoBrmn models.
+     * Lists all FormAutoPp models.
      * @return mixed
      */
     public function actionIndex()
     {
 		 
-		 Yii::$app->view->title = Yii::t('app', 'แบบฟอร์มอนุมัติยืมเงินรายได้มหาวิทยาลัย').' - '.$this->moduletitle;
+		 Yii::$app->view->title = Yii::t('app', 'Form Auto Pps').' - '.$this->moduletitle;
 		 
-        $searchModel = new FormAutoBrmnSearch();
-        /*if (\Yii::$app->authManager-> getAssignment('docHubStaff',Yii::$app->user->getId())){
-            echo '11';
-        }else{
-            echo '333';
-        }
-        exit;*/
-        if (\Yii::$app->authManager-> getAssignment('docHubStaff',Yii::$app->user->getId())){
-
-        }else{
-            $searchModel->brmn_stid = \Yii::$app->user->id;
-        }
+        $searchModel = new FormAutoPpSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'choicearr' => FormAutoBrmn::CHOICE_ARR,
         ]);
     }
 
     /**
-     * Displays a single FormAutoBrmn model.
+     * Displays a single FormAutoPp model.
      * @param integer $id
      * @return mixed
      */
@@ -88,7 +71,7 @@ class BorrowmoneyController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = Yii::t('app', 'ดูรายละเอียด').' : '.$model->brmn_id.' - '.$this->moduletitle;
+		 Yii::$app->view->title = Yii::t('app', 'ดูรายละเอียด').' : '.$model->pp_id.' - '.$this->moduletitle;
 		 
         return $this->render('view', [
             'model' => $model,
@@ -96,7 +79,7 @@ class BorrowmoneyController extends Controller
     }
 
     /**
-     * Creates a new FormAutoBrmn model.
+     * Creates a new FormAutoPp model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
@@ -104,13 +87,13 @@ class BorrowmoneyController extends Controller
     {
 		 Yii::$app->view->title = Yii::t('app', 'สร้างใหม่').' - '.$this->moduletitle;
 		 
-        $model = new FormAutoBrmn();
+        $model = new FormAutoPp();
 
-		/* if enable ajax validate*/
+		/* if enable ajax validate
 		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
 			Yii::$app->response->format = Response::FORMAT_JSON;
 			return ActiveForm::validate($model);
-		}
+		}*/
 		
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
@@ -120,7 +103,7 @@ class BorrowmoneyController extends Controller
 				'icon' => 'glyphicon glyphicon-ok-circle',
 				'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
 				]);
-			return $this->redirect(['view', 'id' => $model->brmn_id]);	
+			return $this->redirect(['view', 'id' => $model->pp_id]);	
 			}else{
 				Yii::$app->getSession()->setFlash('addflsh', [
 				'type' => 'danger',
@@ -132,19 +115,15 @@ class BorrowmoneyController extends Controller
             print_r($model->getErrors());exit;
         }
 
-        $qstaff = Person::getPersonList();
-
             return $this->render('create', [
                 'model' => $model,
-                'staff' => $qstaff,
-                'choicearr' => FormAutoBrmn::CHOICE_ARR,
             ]);
         
 
     }
 
     /**
-     * Updates an existing FormAutoBrmn model.
+     * Updates an existing FormAutoPp model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -153,14 +132,10 @@ class BorrowmoneyController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ '). FormAutoBrmn::MODEL_NAME .' หมายเลข: '. $model->brmn_id.' - '.$this->moduletitle;
-
-        /* if enable ajax validate*/
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        }
-
+		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ {modelClass}: ', [
+    'modelClass' => 'Form Auto Pp',
+]) . $model->pp_id.' - '.$this->moduletitle;
+		 
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
 				Yii::$app->getSession()->setFlash('edtflsh', [
@@ -169,7 +144,7 @@ class BorrowmoneyController extends Controller
 				'icon' => 'glyphicon glyphicon-ok-circle',
 				'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
 				]);
-			return $this->redirect(['view', 'id' => $model->brmn_id]);	
+			return $this->redirect(['view', 'id' => $model->pp_id]);	
 			}else{
 				Yii::$app->getSession()->setFlash('edtflsh', [
 				'type' => 'danger',
@@ -178,27 +153,18 @@ class BorrowmoneyController extends Controller
 				'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
 				]);
 			}
-            return $this->redirect(['view', 'id' => $model->brmn_id]);
-        }
-
-        $qstaff = Person::getPersonList();
-
-        $intmdl = MainIntercom::find()
-            ->where(['staff_id' => $model->brmn_stid])
-            ->one();
+            return $this->redirect(['view', 'id' => $model->pp_id]);
+        } 
 
             return $this->render('update', [
                 'model' => $model,
-                'staff' => $qstaff,
-                'intmdl' => $intmdl,
-                'choicearr' => FormAutoBrmn::CHOICE_ARR,
             ]);
         
 
     }
 
     /**
-     * Deletes an existing FormAutoBrmn model.
+     * Deletes an existing FormAutoPp model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -217,50 +183,20 @@ class BorrowmoneyController extends Controller
 
         return $this->redirect(['index']);
     }
-    public function actionPrint($id)
-    {
-        $model = $this->findModel($id);
-
-        $intmdl = MainIntercom::find()
-            ->where(['staff_id' => $model->brmn_stid])
-            ->one();
-
-        return $this->renderPartial('print', [
-            'model' => $model,
-            'intmdl' => $intmdl,
-        ]);
-    }
 
     /**
-     * Finds the FormAutoBrmn model based on its primary key value.
+     * Finds the FormAutoPp model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return FormAutoBrmn the loaded model
+     * @return FormAutoPp the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = FormAutoBrmn::findOne($id)) !== null) {
+        if (($model = FormAutoPp::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('ไม่พบหน้าที่ต้องการ.');
-        }
-    }
-
-    public function actionPosinfo($id)
-    {
-        $model = Person::find()
-            ->where(['user_id' => $id])
-            ->one();
-        $intmdl = MainIntercom::find()
-            ->where(['staff_id' => $id])
-            ->one();
-        if ($model !== null) {
-            $array = array($model->position->name_th, $intmdl->number);
-            echo json_encode($array);
-            //return [$model->position->name_th, $model->staff->tel];
-        }else{
-            echo json_encode(['-','-']);
         }
     }
 }
