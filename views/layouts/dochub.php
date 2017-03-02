@@ -211,7 +211,7 @@ $this->registerLinkTag([
         $menuItems[] = ['label' => Html::Icon('log-in').' '.Yii::t( 'app', 'Login'), 'url' => Yii::$app->user->loginUrl];
     } else {
         $menuItems[] = [
-            'label' => Html::Icon('log-out') . ' ' . Yii::t('app', 'ออกจากระบบ'),
+            'label' => Html::Icon('option-horizontal') . ' ' . Yii::t('app', 'อื่นๆ'),
             'url' => ['#'],
             'items' =>
                 [

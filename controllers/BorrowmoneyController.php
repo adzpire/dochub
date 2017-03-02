@@ -21,6 +21,8 @@ use yii\bootstrap\ActiveForm;
 
 use yii\helpers\ArrayHelper;
 
+use kartik\mpdf\Pdf;
+
 /**
  * BorrowmoneyController implements the CRUD actions for FormAutoBrmn model.
  */
@@ -41,23 +43,25 @@ class BorrowmoneyController extends Controller
         ];
     }
 
-	 public $checkperson;
+    public $checkperson;
     public $moduletitle;
-    public function beforeAction(){
-       //$this->checkperson = Person::findOne([Yii::$app->user->id]);
-       $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-       return true;
+
+    public function beforeAction()
+    {
+        //$this->checkperson = Person::findOne([Yii::$app->user->id]);
+        $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
+        return true;
     }
-	 
+
     /**
      * Lists all FormAutoBrmn models.
      * @return mixed
      */
     public function actionIndex()
     {
-		 
-		 Yii::$app->view->title = Yii::t('app', 'แบบฟอร์มอนุมัติยืมเงินรายได้มหาวิทยาลัย').' - '.$this->moduletitle;
-		 
+
+        Yii::$app->view->title = Yii::t('app', 'แบบฟอร์มอนุมัติยืมเงินรายได้มหาวิทยาลัย') . ' - ' . $this->moduletitle;
+
         $searchModel = new FormAutoBrmnSearch();
         /*if (\Yii::$app->authManager-> getAssignment('docHubStaff',Yii::$app->user->getId())){
             echo '11';
@@ -65,9 +69,9 @@ class BorrowmoneyController extends Controller
             echo '333';
         }
         exit;*/
-        if (\Yii::$app->authManager-> getAssignment('docHubStaff',Yii::$app->user->getId())){
+        if (\Yii::$app->authManager->getAssignment('docHubStaff', Yii::$app->user->getId())) {
 
-        }else{
+        } else {
             $searchModel->brmn_stid = \Yii::$app->user->id;
         }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -86,10 +90,10 @@ class BorrowmoneyController extends Controller
      */
     public function actionView($id)
     {
-		 $model = $this->findModel($id);
-		 
-		 Yii::$app->view->title = Yii::t('app', 'ดูรายละเอียด').' : '.$model->brmn_id.' - '.$this->moduletitle;
-		 
+        $model = $this->findModel($id);
+
+        Yii::$app->view->title = Yii::t('app', 'ดูรายละเอียด') . ' : ' . $model->brmn_id . ' - ' . $this->moduletitle;
+
         return $this->render('view', [
             'model' => $model,
         ]);
@@ -102,44 +106,45 @@ class BorrowmoneyController extends Controller
      */
     public function actionCreate()
     {
-		 Yii::$app->view->title = Yii::t('app', 'สร้างใหม่').' - '.$this->moduletitle;
-		 
+        Yii::$app->view->title = Yii::t('app', 'สร้างใหม่') . ' - ' . $this->moduletitle;
+
         $model = new FormAutoBrmn();
 
-		/* if enable ajax validate*/
-		if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-			Yii::$app->response->format = Response::FORMAT_JSON;
-			return ActiveForm::validate($model);
-		}
-		
+        /* if enable ajax validate*/
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
-			if($model->save()){
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-				]);
-			return $this->redirect(['view', 'id' => $model->brmn_id]);	
-			}else{
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-				]);
-			}
-            print_r($model->getErrors());exit;
+            if ($model->save()) {
+                Yii::$app->getSession()->setFlash('addflsh', [
+                    'type' => 'success',
+                    'duration' => 4000,
+                    'icon' => 'glyphicon glyphicon-ok-circle',
+                    'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
+                ]);
+                return $this->redirect(['view', 'id' => $model->brmn_id]);
+            } else {
+                Yii::$app->getSession()->setFlash('addflsh', [
+                    'type' => 'danger',
+                    'duration' => 4000,
+                    'icon' => 'glyphicon glyphicon-remove-circle',
+                    'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
+                ]);
+            }
+            print_r($model->getErrors());
+            exit;
         }
 
         $qstaff = Person::getPersonList();
 
-            return $this->render('create', [
-                'model' => $model,
-                'staff' => $qstaff,
-                'choicearr' => FormAutoBrmn::CHOICE_ARR,
-            ]);
-        
+        return $this->render('create', [
+            'model' => $model,
+            'staff' => $qstaff,
+            'choicearr' => FormAutoBrmn::CHOICE_ARR,
+        ]);
+
 
     }
 
@@ -151,9 +156,9 @@ class BorrowmoneyController extends Controller
      */
     public function actionUpdate($id)
     {
-		 $model = $this->findModel($id);
-		 
-		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ '). FormAutoBrmn::MODEL_NAME .' หมายเลข: '. $model->brmn_id.' - '.$this->moduletitle;
+        $model = $this->findModel($id);
+
+        Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ ') . FormAutoBrmn::MODEL_NAME . ' หมายเลข: ' . $model->brmn_id . ' - ' . $this->moduletitle;
 
         /* if enable ajax validate*/
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
@@ -162,22 +167,22 @@ class BorrowmoneyController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
-			if($model->save()){
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
-				]);
-			return $this->redirect(['view', 'id' => $model->brmn_id]);	
-			}else{
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
-				]);
-			}
+            if ($model->save()) {
+                Yii::$app->getSession()->setFlash('edtflsh', [
+                    'type' => 'success',
+                    'duration' => 4000,
+                    'icon' => 'glyphicon glyphicon-ok-circle',
+                    'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
+                ]);
+                return $this->redirect(['view', 'id' => $model->brmn_id]);
+            } else {
+                Yii::$app->getSession()->setFlash('edtflsh', [
+                    'type' => 'danger',
+                    'duration' => 4000,
+                    'icon' => 'glyphicon glyphicon-remove-circle',
+                    'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
+                ]);
+            }
             return $this->redirect(['view', 'id' => $model->brmn_id]);
         }
 
@@ -187,13 +192,13 @@ class BorrowmoneyController extends Controller
             ->where(['staff_id' => $model->brmn_stid])
             ->one();
 
-            return $this->render('update', [
-                'model' => $model,
-                'staff' => $qstaff,
-                'intmdl' => $intmdl,
-                'choicearr' => FormAutoBrmn::CHOICE_ARR,
-            ]);
-        
+        return $this->render('update', [
+            'model' => $model,
+            'staff' => $qstaff,
+            'intmdl' => $intmdl,
+            'choicearr' => FormAutoBrmn::CHOICE_ARR,
+        ]);
+
 
     }
 
@@ -206,17 +211,18 @@ class BorrowmoneyController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-		
-		Yii::$app->getSession()->setFlash('edtflsh', [
-			'type' => 'success',
-			'duration' => 4000,
-			'icon' => 'glyphicon glyphicon-ok-circle',
-			'message' => Yii::t('app', 'ลบรายการเรียบร้อย'),
-		]);
-		
+
+        Yii::$app->getSession()->setFlash('edtflsh', [
+            'type' => 'success',
+            'duration' => 4000,
+            'icon' => 'glyphicon glyphicon-ok-circle',
+            'message' => Yii::t('app', 'ลบรายการเรียบร้อย'),
+        ]);
+
 
         return $this->redirect(['index']);
     }
+
     public function actionPrint($id)
     {
         $model = $this->findModel($id);
@@ -225,7 +231,7 @@ class BorrowmoneyController extends Controller
             ->where(['staff_id' => $model->brmn_stid])
             ->one();
 
-        return $this->renderPartial('print', [
+        return $this->renderPartial('print2', [
             'model' => $model,
             'intmdl' => $intmdl,
         ]);
@@ -259,8 +265,97 @@ class BorrowmoneyController extends Controller
             $array = array($model->position->name_th, $intmdl->number);
             echo json_encode($array);
             //return [$model->position->name_th, $model->staff->tel];
-        }else{
-            echo json_encode(['-','-']);
+        } else {
+            echo json_encode(['-', '-']);
         }
+    }
+
+    public function actionPdf($id)
+    {
+        $model = $this->findModel($id);
+
+        $intmdl = MainIntercom::find()
+            ->where(['staff_id' => $model->brmn_stid])
+            ->one();
+//        $tmptext = \Yii::$app->formatter->asSpellout($model->brmn_borrow);
+        //$thaibathtext = html_entity_decode(\Yii::$app->formatter->asSpellout($model->brmn_borrow));
+//        $thaibathtext = htmlspecialchars($tmptext);
+        $thaibathtext = str_replace('​', '', \Yii::$app->formatter->asSpellout($model->brmn_borrow));
+//        $thaibathtext = 'หนึ่งร้อยสี่สิบห้า';
+        //echo $thaibathtext;
+        //exit();
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+            'content' => $this->renderPartial('print', [
+                'model' => $model,
+                'intmdl' => $intmdl,
+                'thaibathtext' => $thaibathtext,
+            ]),
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'options' => [
+                'title' => 'แบบฟอร์มขออนุมัติยืมเงินรายได้มหาวิทยาลัย',
+                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+            ],
+            'cssInline' => '
+                body {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 20px;
+                    line-height: 22px;
+                    font-family: "sarabun";
+                }
+                .pagebreak { page-break-before: always; }
+                .tbhead {
+                    border-top-style: none;
+                    border-right-style: none;
+                    border-bottom-style: none;
+                    border-left-style: none;
+                }
+                .tbhead {
+                    border-top-style: none;
+                    border-right-style: none;
+                    border-bottom-style: none;
+                    border-left-style: none;
+                }
+                .tbcontent {
+                    border: thin solid #000;
+                    vertical-align: top;
+                    padding-left: 5px;
+                }
+                a {
+                    display: inline-block;
+                    color: #000;
+                    line-height: 18px;
+                    text-decoration: none;
+                    border-bottom: 1px dotted;
+                }
+                .style6{
+                  font-size: 30px;
+                }
+                .style5{
+                  font-size: 25px;
+                }
+                .style4{
+                  font-size: 20px;
+                }
+                .fixpos {
+                    position: absolute;
+                    right: 300px;
+                }
+                @media print {
+                    .noprint {
+                        display: none;
+                    }
+                }
+            ',
+            'methods' => [
+                //'SetHeader' => ['Generated By: Krajee Pdf Component||Generated On: ' . date("r")],
+                //'SetFooter' => ['|Page {PAGENO}|'],
+            ]
+        ]);
+        return $pdf->render();
     }
 }

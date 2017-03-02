@@ -67,14 +67,15 @@ $this->registerCss("
             // 'brmn_edate',
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{update}  {print}',
+				'template' => '{update}  {pdf}',
 				'buttons' => [
 					'update' => function ($url, $model, $key) {
 						//return Html::a('<i class="glyphicon glyphicon-ok-circle"></i>',$url);
 						return Html::a(' '.Html::icon('pencil').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'แก้ไข']);
 					},
-					'print' => function ($url, $model, $key) {
+					'pdf' => function ($url, $model, $key) {
 						//return Html::a('<i class="glyphicon glyphicon-ok-circle"></i>',$url);
+//						return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'พิมพ์', 'target'=>'_blank']);
 						return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'พิมพ์', 'target'=>'_blank']);
 					},
 				],

@@ -134,7 +134,7 @@ use yii\widgets\Pjax;
                     'items' => [
                         [
                             'label' => Html::icon('globe').' แบบฟอร์มขอใช้งานบัญชี PSU Passport ชั่วคราว',
-                            'url' => ['default/create'],
+                            'url' => ['/dochub/pp'],
                         ],
                     ],
                     'options' => ['class' => 'nav-stacked'], // set this to nav-tab to get tab-styled navigation

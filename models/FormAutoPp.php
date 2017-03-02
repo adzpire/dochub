@@ -4,6 +4,8 @@ namespace backend\modules\dochub\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use backend\modules\person\models\Person;
+use backend\modules\mainjob\models\MainJob;
 /**
  * This is the model class for table "form_auto_pp".
  *
@@ -27,8 +29,45 @@ class FormAutoPp extends \yii\db\ActiveRecord
     {
         return 'form_auto_pp';
     }
-public $ppStName; 
-public $ppJName; 
+
+    const MODEL_NAME = 'แบบฟอร์มขอ PSU Passport';
+    public $ppStName;
+    public $rangedatetime;
+    public $ppJName;
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if ($insert) {
+
+            $ssmdl = new FormAutoSession();
+            $ssmdl->fss_fid = $this->pp_id;
+            $ssmdl->fss_type = 'formAutoPp';
+            //$ssmdl->save();
+            if ($ssmdl->save()) {
+            } else {
+                print_r($ssmdl->getErrors());
+                exit;
+            }
+        } else {
+            $ssmdl = FormAutoSession::find()->where(['fss_fid' => $this->pp_id, 'fss_type' => 'formAutoPp'])->one();
+            $ssmdl->updated_at = null;
+            $ssmdl->updated_by = null;
+            $ssmdl->save();
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            $model = FormAutoSession::find()->where(['fss_fid' => $this->pp_id, 'fss_type' => 'formAutoPp'])->one();
+            $model->delete();
+            return true;
+        } else {
+            return false;
+        }
+    }
 /*add rule in [safe]
 'ppStName', 'ppJName', 
 join in searh()
@@ -58,14 +97,20 @@ $query->joinWith(['ppSt', 'ppJ', ]);*/    /**
             'pp_accountnum' => 'จำนวนบัญชี',
             'pp_bdate' => 'วันเริ่ม',
             'pp_edate' => 'วันสิ้นสุด',
-            'pp_stid' => 'staffID',
-            'pp_jid' => 'jobID',
+            'pp_stid' => 'ผู้ขอ',
+            'pp_jid' => 'งาน',
+            'rangedatetime' => 'ตั้งแต่วันที่ - ถึงวันที่',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSs()
+    {
+        return $this->hasOne(FormAutoSession::className(), ['fss_fid' => 'pp_id'])->where(['fss_type' => 'formAutoPp']);
+    }
+
     public function getPpSt()
     {
         return $this->hasOne(Person::className(), ['user_id' => 'pp_stid']);
