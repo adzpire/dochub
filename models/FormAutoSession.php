@@ -141,25 +141,60 @@ public static function getFormAutoSessionList(){
 		return ArrayHelper::map(self::find()->all(), 'id', 'title');
 	}
 
-/*
-public static function itemsAlias($key) {
+    public static function farr($sel = 1){
+        $farray[FormAutoExm::fn()['code']] = FormAutoExm::fn()['name'];
+        $ficonarr[FormAutoExm::fn()['code']] = FormAutoExm::fn()['icon'];
+        //--
+        $farray[FormAutoUsebdgt::fn()['code']] = FormAutoUsebdgt::fn()['name'];
+        $ficonarr[FormAutoUsebdgt::fn()['code']] = FormAutoUsebdgt::fn()['icon'];
+        //--
+        $farray[FormAutoCe::fn()['code']] = FormAutoCe::fn()['name'];
+        $ficonarr[FormAutoCe::fn()['code']] = FormAutoCe::fn()['icon'];
+        //--
+        $farray[FormAutoCeg::fn()['code']] = FormAutoCeg::fn()['name'];
+        $ficonarr[FormAutoCeg::fn()['code']] = FormAutoCeg::fn()['icon'];
+        //--
+        $farray[FormAutoHirbdgt::fn()['code']] = FormAutoHirbdgt::fn()['name'];
+        $ficonarr[FormAutoHirbdgt::fn()['code']] = FormAutoHirbdgt::fn()['icon'];
+        //--
+        $farray[FormAutoMf::fn()['code']] = FormAutoMf::fn()['name'];
+        $ficonarr[FormAutoMf::fn()['code']] = FormAutoMf::fn()['icon'];
+        //--
+        $farray[FormAutoMfg::fn()['code']] = FormAutoMfg::fn()['name'];
+        $ficonarr[FormAutoMfg::fn()['code']] = FormAutoMfg::fn()['icon'];
+        //--
+        $farray[FormAutoPp::fn()['code']] = FormAutoPp::fn()['name'];
+        $ficonarr[FormAutoPp::fn()['code']] = FormAutoPp::fn()['icon'];
+        //--
+        $farray[FormAutoBrmn::fn()['code']] = FormAutoBrmn::fn()['name'];
+        $ficonarr[FormAutoBrmn::fn()['code']] = FormAutoBrmn::fn()['icon'];
+        //--
+        $farray[FormAutoUnplnbdgt::fn()['code']] = FormAutoUnplnbdgt::fn()['name'];
+        $ficonarr[FormAutoUnplnbdgt::fn()['code']] = FormAutoUnplnbdgt::fn()['icon'];
+        //--
+        $farray[FormAutoLibraid::fn()['code']] = FormAutoLibraid::fn()['name'];
+        $ficonarr[FormAutoLibraid::fn()['code']] = FormAutoLibraid::fn()['icon'];
+        //--
+        $farray[FormAutoRc::fn()['code']] = FormAutoRc::fn()['name'];
+        $ficonarr[FormAutoRc::fn()['code']] = FormAutoRc::fn()['icon'];
+        if($sel == 1){return $farray;}
+        elseif ($sel == 2){return $ficonarr;}
+    }
+    public static function itemsAlias($key) {
         $items = [
-            'status' => [
-                0 => Yii::t('app', 'ร่าง'),
-                1 => Yii::t('app', 'เสนอ'),
-                2 => Yii::t('app', 'อนุมัติ'),
-                3 => Yii::t('app', 'ไม่อนุมัติ'),
-                4 => Yii::t('app', 'คืนแล้ว'),
-            ],
-            'statusCondition'=>[
-                1 => Yii::t('app', 'อนุมัติ'),
-                0 => Yii::t('app', 'ไม่อนุมัติ'),
-            ]
+            'form' => self::farr()
         ];
         return ArrayHelper::getValue($items, $key, []);
     }
+    public function getItemForm() {
+        return self::itemsAlias('form');
+    }
 
-    public function getStatusLabel() {
+    public function getForm() {
+        return ArrayHelper::getValue($this->getItemForm(),$this->fss_type);
+    }
+
+ /*   public function getStatusLabel() {
         $status = ArrayHelper::getValue($this->getItemStatus(), $this->status);
         $status = ($this->status === NULL) ? ArrayHelper::getValue($this->getItemStatus(), 0) : $status;
         switch ($this->status) {

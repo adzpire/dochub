@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 
 use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
-
+use kartik\daterange\DateRangePicker;
 use yii\web\View;
 
 use yii\helpers\Url;
@@ -179,40 +179,36 @@ use yii\helpers\Url;
             </div>
         </div>
         <div class="col-md-11 col-md-offset-1">
-            <div class="col-md-5 col-md-offset-1">
-                <?= $form->field($model, 'brmn_bdate', [
-                    'validateOnChange' => true,
-                    'enableAjaxValidation' => true,
-                    'horizontalCssClasses' => [
-                        'label' => 'col-md-4',
-                        'wrapper' => 'col-md-8',
-                    ],
-                ])->widget(DatePicker::classname(), [
-                    'language' => 'th',
-                    'options' => ['placeholder' => 'enterdate'],
-                    'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                    'pluginOptions' => [
-                        'autoclose'=>true,
-                        'format' => 'yyyy-mm-dd'
-                    ]]) ?>
-            </div>
-            <div class="col-md-6">
-                <?= $form->field($model, 'brmn_edate', [
-                    'validateOnChange' => true,
-                    'enableAjaxValidation' => true,
-                    'horizontalCssClasses' => [
-                        'label' => 'col-md-4',
-                        'wrapper' => 'col-md-8',
-                    ],
-                ])->widget(DatePicker::classname(), [
-                    'language' => 'th',
-                    'options' => ['placeholder' => 'enterdate'],
-                    'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                    'pluginOptions' => [
-                        'autoclose'=>true,
-                        'format' => 'yyyy-mm-dd'
-                    ]]) ?>
-            </div>
+            <?php
+            if ($model->isNewRecord) {
+                $model->brmn_bdate = date('Y-m-d');
+                $model->brmn_edate = $model->brmn_bdate;
+            }
+            echo $form->field($model, 'rangedatetime', [
+                //'enableAjaxValidation' => true,
+                //'inputTemplate' => '<div class="input-group">{input}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span></div>',
+                'horizontalCssClasses' => [
+                    'label' => 'col-md-3',
+                    'wrapper' => 'col-md-9',
+                ]
+            ])->widget(DateRangePicker::classname(), [
+                'model' => $model,
+                'attribute' => 'rangedatetime',
+                //'value'=>'2015-10-19 12:00 AM - 2015-11-03 01:00 PM',
+                'convertFormat' => true,
+                'hideInput' => true,
+                'presetDropdown'=>true,
+                'language'=>'th',
+                'startAttribute' => 'brmn_bdate',
+                'endAttribute' => 'brmn_edate',
+                'pluginOptions' => [
+                    //'minDate' => date('Y-m-d'),
+                    //'timePickerIncrement' => 15,
+                    //'timePicker24Hour' => true,
+                    'locale' => ['format' => 'Y-m-d'],
+                ],
+            ]);
+            ?>
         </div>
 
     </div>
@@ -227,8 +223,11 @@ use yii\helpers\Url;
     <div class="col-md-12 form-group text-center">
         <?= Html::submitButton( Html::icon('floppy-disk').' '.Yii::t('app', 'บันทึก'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		<?php /*if(!$model->isNewRecord){ echo Html::resetButton( Html::icon('refresh').' '.Yii::t('app', 'Reset') , ['class' => 'btn btn-warning']);} */
-		  echo Html::a( Html::icon('ban-circle').' '.Yii::t('app', 'ยกเลิก'), Yii::$app->request->referrer, ['class' => 'btn btn-warning']);
-		  ?>
+        if(!$model->isNewRecord) {
+            echo ' ' . Html::a(Html::icon('print') . ' ' . Yii::t('app', 'พิมพ์'), ['pdf', 'id' => $model->brmn_id], ['class' => 'btn btn-danger', 'data-pjax' => 0]);
+        }
+        echo ' '.Html::a( Html::icon('ban-circle').' '.Yii::t('app', 'ยกเลิก'), Yii::$app->request->referrer, ['class' => 'btn btn-warning']);
+        ?>
 		 
 	</div>
 

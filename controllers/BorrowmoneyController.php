@@ -60,9 +60,9 @@ class BorrowmoneyController extends Controller
     public function actionIndex()
     {
 
-        Yii::$app->view->title = Yii::t('app', 'แบบฟอร์มอนุมัติยืมเงินรายได้มหาวิทยาลัย') . ' - ' . $this->moduletitle;
+        Yii::$app->view->title = ' รายการ '.FormAutoBrmn::fn()['name']. ' - ' . $this->moduletitle;
 
-        $searchModel = new FormAutoBrmnSearch();
+        $searchModel = new FormAutoBrmnSearch(['brmn_stid' => Yii::$app->user->id]);
         /*if (\Yii::$app->authManager-> getAssignment('docHubStaff',Yii::$app->user->getId())){
             echo '11';
         }else{
@@ -79,7 +79,7 @@ class BorrowmoneyController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'choicearr' => FormAutoBrmn::CHOICE_ARR,
+            'choicearr' => FormAutoBrmn::getItemChoice(),
         ]);
     }
 
@@ -142,7 +142,7 @@ class BorrowmoneyController extends Controller
         return $this->render('create', [
             'model' => $model,
             'staff' => $qstaff,
-            'choicearr' => FormAutoBrmn::CHOICE_ARR,
+            'choicearr' => FormAutoBrmn::getItemChoice(),
         ]);
 
 
@@ -158,7 +158,7 @@ class BorrowmoneyController extends Controller
     {
         $model = $this->findModel($id);
 
-        Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ ') . FormAutoBrmn::MODEL_NAME . ' หมายเลข: ' . $model->brmn_id . ' - ' . $this->moduletitle;
+        Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ ') . FormAutoBrmn::fn()['name'] . ' หมายเลข: ' . $model->brmn_id . ' - ' . $this->moduletitle;
 
         /* if enable ajax validate*/
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
@@ -196,7 +196,7 @@ class BorrowmoneyController extends Controller
             'model' => $model,
             'staff' => $qstaff,
             'intmdl' => $intmdl,
-            'choicearr' => FormAutoBrmn::CHOICE_ARR,
+            'choicearr' => FormAutoBrmn::getItemChoice(),
         ]);
 
 
@@ -272,7 +272,8 @@ class BorrowmoneyController extends Controller
 
     public function actionPdf($id)
     {
-        $model = $this->findModel($id);
+
+        $model = ($id == 'example') ?$this->findModel(0) : $this->findModel($id);
 
         $intmdl = MainIntercom::find()
             ->where(['staff_id' => $model->brmn_stid])

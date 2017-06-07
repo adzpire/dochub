@@ -39,7 +39,7 @@ $this->registerCss("
             [
                 'attribute' => 'brmn_choice',
                 'value' => function ($model) {
-                    return $model->Showchoice($model->brmn_choice);
+                    return $model->getChoice();
                 },
                 'filter'=> $choicearr,
                 'format' => ['html']
@@ -52,41 +52,40 @@ $this->registerCss("
             ],
             [
                 'attribute' => 'brmn_other',
-                'format' => 'raw',
-                'value' => 'brmn_other',
-                //'contentOptions'=>['style'=>'max-width: 250px'] // <-- right here
+                'headerOptions' => [
+                    'width' => '30%',
+                ],
             ],
             [
                 'attribute' => 'brmn_title',
-                'format' => 'raw',
-                'value' => 'brmn_title',
-                //'contentOptions'=>['style'=>'max-width: 250px'] // <-- right here
+                'headerOptions' => [
+                    'width' => '30%',
+                ],
             ],
+//            'brmn_other',
+//            'brmn_title',
             // 'brmn_place',
             // 'brmn_bdate',
             // 'brmn_edate',
-			[
-				'class' => 'yii\grid\ActionColumn',
-				'template' => '{update}  {pdf}',
-				'buttons' => [
-					'update' => function ($url, $model, $key) {
-						//return Html::a('<i class="glyphicon glyphicon-ok-circle"></i>',$url);
-						return Html::a(' '.Html::icon('pencil').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'แก้ไข']);
-					},
-					'pdf' => function ($url, $model, $key) {
-						//return Html::a('<i class="glyphicon glyphicon-ok-circle"></i>',$url);
-//						return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'พิมพ์', 'target'=>'_blank']);
-						return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'พิมพ์', 'target'=>'_blank']);
-					},
-				],
-				'headerOptions' => [
-					'width' => '70px',
-				],
-				'contentOptions' => [
-					'class'=>'text-center',
-				],
-				//'header' => 'จัดการ',
-			],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update}  {pdf}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a(' '.Html::icon('pencil').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'แก้ไข']);
+                    },
+                    'pdf' => function ($url, $model, $key) {
+                        return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'data-pjax'=>0, 'title'=>'พิมพ์', 'target'=>'_blank']);
+                    },
+                ],
+                'headerOptions' => [
+                    'width' => '70px',
+                ],
+                'contentOptions' => [
+                    'class'=>'text-center',
+                ],
+                'header' => 'จัดการ',
+            ],
         ],
 		'pager' => [
 			'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
@@ -96,15 +95,16 @@ $this->registerCss("
 		'hover'=>true,
 		'toolbar'=> [
 			['content'=>
-				Html::a(Html::icon('plus').' สร้างแบบฟอร์มใหม่ ', ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]),
-				//Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
-			],
+                Html::a(Html::icon('plus').'สร้างแบบฟอร์มใหม่', ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
+                Html::a(Html::icon('info-sign').'แสดงตัวอย่่าง', ['pdf?id=example'], ['class'=>'btn btn-danger', 'title'=>Yii::t('app', 'แสดงตัวอย่่าง'), 'target'=>'_blank']).' '.
+                Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
+            ],
 			//'{export}',
 			'{toggleData}',
 		],
 		'panel'=>[
 			'type'=>GridView::TYPE_INFO,
-			'heading'=> Html::icon('user').' '.Html::encode($this->title),
+			'heading'=> Html::icon($searchModel::fn()['icon']).' '.Html::encode($this->title),
 		],
     ]); ?>
 <?php 	 /* adzpire grid tips

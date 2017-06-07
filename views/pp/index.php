@@ -14,32 +14,52 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="form-auto-pp-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>
+<?= GridView::widget([
 		//'id' => 'kv-grid-demo',
 		'dataProvider'=> $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            'pp_id',
+//            'pp_id',
+			[
+				'attribute' => 'pp_id',
+				'headerOptions' => [
+					'width' => '50px',
+				],
+			],
             'pp_actname',
             'pp_accountnum',
-            'pp_bdate',
-            'pp_edate',
+            [
+                'attribute' => 'pp_bdate',
+                'format' => ['date','long'],
+            ],
+            [
+                'attribute' => 'pp_edate',
+                'format' => ['date','long'],
+            ],
             // 'pp_stid',
             // 'pp_jid',
-				[
-					'class' => 'yii\grid\ActionColumn',
-					/*'visibleButtons' => [
-						'view' => Yii::$app->user->id == 122,
-						'update' => Yii::$app->user->id == 19,
-						'delete' => function ($model, $key, $index) {
-										return $model->status === 1 ? false : true;
-									}
-						],
-					'visible' => Yii::$app->user->id == 19,*/
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{update}  {pdf}',
+				'buttons' => [
+					'update' => function ($url, $model, $key) {
+						return Html::a(' '.Html::icon('pencil').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'แก้ไข']);
+					},
+					'pdf' => function ($url, $model, $key) {
+						return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'data-pjax'=>0, 'title'=>'พิมพ์', 'target'=>'_blank']);
+					},
 				],
+				'headerOptions' => [
+					'width' => '70px',
+				],
+				'contentOptions' => [
+					'class'=>'text-center',
+				],
+				'header' => 'จัดการ',
+			],
         ],
 		'pager' => [
 			'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
@@ -49,17 +69,19 @@ $this->params['breadcrumbs'][] = $this->title;
 		'hover'=>true,
 		'toolbar'=> [
 			['content'=>
-				Html::a(Html::icon('plus'), ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
-				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
+                Html::a(Html::icon('plus').'สร้างแบบฟอร์มใหม่', ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
+                Html::a(Html::icon('info-sign').'แสดงตัวอย่่าง', ['pdf?id=example'], ['data-pjax'=>0, 'class'=>'btn btn-danger', 'title'=>Yii::t('app', 'แสดงตัวอย่่าง'), 'target'=>'_blank']).' '.
+                Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
 			],
 			//'{export}',
 			'{toggleData}',
 		],
 		'panel'=>[
 			'type'=>GridView::TYPE_INFO,
-			'heading'=> Html::icon('user').' '.Html::encode($this->title),
+			'heading'=> Html::icon($searchModel::fn()['icon']).' '.Html::encode($this->title),
 		],
     ]); ?>
+    <?php Pjax::end(); ?>
 <?php 	 /* adzpire grid tips
 		[
 				'attribute' => 'id',
@@ -93,5 +115,5 @@ $this->params['breadcrumbs'][] = $this->title;
 			'value' => 'weCr.userPro.nameconcatened'
 		],
 	 */
- ?> <?php Pjax::end(); ?>	
+ ?>
 </div>

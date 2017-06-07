@@ -29,8 +29,15 @@ class FormAutoPp extends \yii\db\ActiveRecord
     {
         return 'form_auto_pp';
     }
+    public static function fn()
+    {
+        return [
+            'code' => 'pp',
+            'name' => Yii::t('app', 'แบบฟอร์มขอ PSU Passport ชั่วคราว'),
+            'icon' => 'globe',
+        ];
+    }
 
-    const MODEL_NAME = 'แบบฟอร์มขอ PSU Passport';
     public $ppStName;
     public $rangedatetime;
     public $ppJName;
@@ -43,7 +50,7 @@ class FormAutoPp extends \yii\db\ActiveRecord
 
             $ssmdl = new FormAutoSession();
             $ssmdl->fss_fid = $this->pp_id;
-            $ssmdl->fss_type = 'formAutoPp';
+            $ssmdl->fss_type = self::fn()['code'];
             //$ssmdl->save();
             if ($ssmdl->save()) {
             } else {
@@ -51,7 +58,7 @@ class FormAutoPp extends \yii\db\ActiveRecord
                 exit;
             }
         } else {
-            $ssmdl = FormAutoSession::find()->where(['fss_fid' => $this->pp_id, 'fss_type' => 'formAutoPp'])->one();
+            $ssmdl = FormAutoSession::find()->where(['fss_fid' => $this->pp_id, 'fss_type' => self::fn()['code']])->one();
             $ssmdl->updated_at = null;
             $ssmdl->updated_by = null;
             $ssmdl->save();
@@ -61,7 +68,7 @@ class FormAutoPp extends \yii\db\ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            $model = FormAutoSession::find()->where(['fss_fid' => $this->pp_id, 'fss_type' => 'formAutoPp'])->one();
+            $model = FormAutoSession::find()->where(['fss_fid' => $this->pp_id, 'fss_type' => self::fn()['code']])->one();
             $model->delete();
             return true;
         } else {
@@ -108,7 +115,7 @@ $query->joinWith(['ppSt', 'ppJ', ]);*/    /**
      */
     public function getSs()
     {
-        return $this->hasOne(FormAutoSession::className(), ['fss_fid' => 'pp_id'])->where(['fss_type' => 'formAutoPp']);
+        return $this->hasOne(FormAutoSession::className(), ['fss_fid' => 'pp_id'])->where(['fss_type' => self::fn()['code']]);
     }
 
     public function getPpSt()

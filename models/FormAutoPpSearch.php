@@ -72,6 +72,12 @@ class FormAutoPpSearch extends FormAutoPp
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'pp_id' => SORT_DESC,
+                    //'title' => SORT_ASC,
+                ]
+            ],
         ]);
 
         $this->load($params);

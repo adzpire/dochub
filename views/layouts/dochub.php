@@ -174,8 +174,8 @@ $this->registerLinkTag([
     <?php
     NavBar::begin([
         'brandLabel' => '<img class="cmmslogo" alt="Brand" src="/media/parallax/img/commsci_logo_black.png">'.'<table class="navtablelogo"><tbody>
-		  <tr><td>'.Yii::t( 'app', 'ระบบข้อมูลผลงานอาจารย์').'</td></tr>
-		  <tr style="font-size: small;"><td>'.Yii::t( 'app', 'ระบบข้อมูลผลงานอาจารย์ คณะวิทยาการสื่อสาร').'</td></tr>
+		  <tr><td>'.Yii::t( 'app', 'ระบบสร้างแบบฟอร์มออนไลน์').'</td></tr>
+		  <tr style="font-size: small;"><td>'.Yii::t( 'app', 'ฐานข้อมูลเอกสารและแบบฟอร์มออนไลน์ คณะวิทยาการสื่อสาร').'</td></tr>
 		  </tbody></table>',
         'brandUrl' => Url::toRoute('/'.$moduleID),
         'innerContainerOptions' => ['class'=>'container-fluid'],
@@ -184,8 +184,8 @@ $this->registerLinkTag([
         ],
     ]);
     $menuItems = [
-        ['label' => Html::Icon('star').' '.Yii::t( 'app', 'ข้อมูลทั้งหมด'), 'url' => ['default/all']],
-        /*[
+        /*['label' => Html::Icon('star').' '.Yii::t( 'app', 'ข้อมูลทั้งหมด'), 'url' => ['default/all']],
+        [
             'label' => Html::Icon('transfer').' '.Yii::t( 'app', 'tranfer/change'),
             'url' => ['#'],
             'items' => [
@@ -200,9 +200,16 @@ $this->registerLinkTag([
         [
             'label' => Html::Icon('fullscreen') . ' ' . Yii::t('app', 'ระบบที่เกี่ยวข้อง'),
             'url' => ['#'],
-            'items' => [
-                ['label' => Html::Icon('scissors') . ' ' . Yii::t('app', 'ระบบเอกสารและแบบฟอร์มออนไลน์'), 'url' => ['dochub/']],
-            ]
+            'items' => require(Url::to('@backend/components/relatedlink.php')),
+//            'items' => [
+//                ['label' => Html::Icon('scissors') . ' ' . Yii::t('app', 'ระบบแบบสอบถามออนไลน์'), 'url' => ['dochub/']],
+//                ['label' => Html::Icon('scissors') . ' ' . Yii::t('app', 'ระบบจองพื้นที่ให้บริการ'), 'url' => ['dochub/']],
+//                ['label' => Html::Icon('earphone') . ' ' . Yii::t('app', 'ฐานข้อมูลเบอร์ภายใน'), 'url' => ['dochub/']],
+//                ['label' => Html::Icon('earphone') . ' ' . Yii::t('app', 'ฐานข้อมูลรายวิชา'), 'url' => ['dochub/']],
+//                ['label' => Html::Icon('earphone') . ' ' . Yii::t('app', 'ระบบข้อมูลพัสดุ/ครุภัณฑ์'), 'url' => ['dochub/']],
+//                ['label' => Html::Icon('earphone') . ' ' . Yii::t('app', 'ระบบข้อมูลโครงสร้างงาน'), 'url' => ['dochub/']],
+//                ['label' => Html::Icon('earphone') . ' ' . Yii::t('app', 'ระบบตรวจสอบพัสดุ/ครุภัณฑ์ประจำปี'), 'url' => ['dochub/']],
+//            ]
         ],
         ['label' => Html::Icon('info-sign').' '.Yii::t( 'app', 'คำแนะนำการใช้งาน'), 'url' => ['default/readme']],
     ];
@@ -220,6 +227,9 @@ $this->registerLinkTag([
                     .'</li>',
                     '<li>'
                     . Html::a(Html::Icon('globe') . ' ' . Yii::t('app', 'หน้าเว็บไซต์หลัก'), '/')
+                    . '</li>',
+                    '<li>'
+                    . Html::a(Html::Icon('folder-open') . ' ' . Yii::t('app', 'web manager'), '/web-admin')
                     . '</li>',
                     '<li>'
                     . Html::beginForm(['/site/logout', 'url' => Url::current()], 'post')

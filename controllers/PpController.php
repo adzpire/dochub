@@ -59,9 +59,9 @@ class PpController extends Controller
     public function actionIndex()
     {
 		 
-		 Yii::$app->view->title = ' รายการ '.Yii::t('app', FormAutoPp::MODEL_NAME).' - '.$this->moduletitle;
+		 Yii::$app->view->title = ' รายการ '.FormAutoPp::fn()['name'].' - '.$this->moduletitle;
 		 
-        $searchModel = new FormAutoPpSearch();
+        $searchModel = new FormAutoPpSearch(['pp_stid' => Yii::$app->user->id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -144,7 +144,7 @@ class PpController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ {modelClass}: ', [
+		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ '.$model::fn()['name'].': ', [
     'modelClass' => 'Form Auto Pp',
 ]) . $model->pp_id.' - '.$this->moduletitle;
 		 
@@ -166,10 +166,15 @@ class PpController extends Controller
 				]);
 			}
             return $this->redirect(['view', 'id' => $model->pp_id]);
-        } 
+        }
+
+        $qstaff = Person::getPersonList();
+        $jobs = MainJob::getMainJobList();
 
             return $this->render('update', [
                 'model' => $model,
+                'staff' => $qstaff,
+                'jobs' => $jobs,
             ]);
         
 
@@ -214,7 +219,8 @@ class PpController extends Controller
 
     public function actionPdf($id)
     {
-        $model = $this->findModel($id);
+        $model = ($id == 'example') ?$this->findModel(0) : $this->findModel($id);
+
         $intmdl = MainIntercom::find()
             ->where(['staff_id' => $model->pp_stid])
             ->one();

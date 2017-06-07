@@ -5,6 +5,9 @@ namespace backend\modules\dochub\controllers;
 use Yii;
 use yii\web\Controller;
 use backend\modules\dochub\models\FormAutoSessionSearch;
+use backend\modules\person\models\Person;
+
+use backend\modules\intercom\models\MainIntercom;
 /**
  * Default controller for the `dochub` module
  */
@@ -31,6 +34,23 @@ class DefaultController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'ftype' => $searchModel->getItemForm(),
         ]);
+    }
+    public function actionPosinfo($id)
+    {
+        $model = Person::find()
+            ->where(['user_id' => $id])
+            ->one();
+        $intmdl = MainIntercom::find()
+            ->where(['staff_id' => $id])
+            ->one();
+        if ($model !== null) {
+            $array = array($model->position->name_th, $intmdl->number);
+            echo json_encode($array);
+            //return [$model->position->name_th, $model->staff->tel];
+        } else {
+            echo json_encode(['-', '-']);
+        }
     }
 }

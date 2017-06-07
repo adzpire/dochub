@@ -31,9 +31,14 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
     {
         return 'form_auto_brmn';
     }
-
-    const CHOICE_ARR = ['1' => 'ไปราชการ', '2' => 'ค่าวัสดุตามหนังสืออนุมัติ', '3' => 'เงินอื่นๆ'];
-    const MODEL_NAME = 'ขออนุมัติยืมเงินรายได้มหาวิทยาลัย';
+    public static function fn()
+    {
+        return [
+            'code' => 'borrowmoney',
+            'name' => Yii::t('app', 'ขออนุมัติยืมเงินรายได้มหาวิทยาลัย'),
+            'icon' => 'bitcoin',
+        ];
+    }
     public $brmnStName;
 
     public function beforeSave($insert)
@@ -80,7 +85,7 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
 //        $this->save(['exp_date']);
             $ssmdl = new FormAutoSession();
             $ssmdl->fss_fid = $this->brmn_id;
-            $ssmdl->fss_type = 'formAutoBrmn';
+            $ssmdl->fss_type = self::fn()['code'];
             //$ssmdl->save();
             if ($ssmdl->save()) {
             } else {
@@ -88,7 +93,7 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
                 exit;
             }
         } else {
-            $ssmdl = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => 'formAutoBrmn'])->one();
+            $ssmdl = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => self::fn()['code']])->one();
             $ssmdl->updated_at = null;
             $ssmdl->updated_by = null;
             $ssmdl->save();
@@ -98,20 +103,21 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-//            if (($model = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => 'formAutoBrmn'])->one()) !== null) {
+//            if (($model = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => self::fn()['code']])->one()) !== null) {
 //                $model->delete();
 //            } else {
 //                throw new NotFoundHttpException('cannotdelsession');
 //            }
 
 //            return true;
-            $model = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => 'formAutoBrmn'])->one();
+            $model = FormAutoSession::find()->where(['fss_fid' => $this->brmn_id, 'fss_type' => self::fn()['code']])->one();
             $model->delete();
             return true;
         } else {
             return false;
         }
     }
+    public $rangedatetime;
     /*add rule in [safe]
     'brmnStName',
     join in searh()
@@ -154,11 +160,12 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
             'brmn_salary' => 'เงินเดือน',
             'brmn_borrow' => 'จำนวนยืม',
             'brmn_choice' => 'เหตุผล',
-            'brmn_other' => 'อื่น',
+            'brmn_other' => 'เหตุผล-เงินอื่นๆ',
             'brmn_title' => 'ราชการ-เรื่อง',
             'brmn_place' => 'ราชการ-ที่',
             'brmn_bdate' => 'ราชการ-วันเริ่มต้น',
             'brmn_edate' => 'ราชการ-วันสิ้นสุด',
+            'rangedatetime' => 'ตั้งแต่วันที่ - ถึงวันที่',
         ];
     }
 
@@ -167,7 +174,7 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
      */
     public function getSs()
     {
-        return $this->hasOne(FormAutoSession::className(), ['fss_fid' => 'brmn_id'])->where(['fss_type' => 'formAutoBrmn']);
+        return $this->hasOne(FormAutoSession::className(), ['fss_fid' => 'brmn_id'])->where(['fss_type' => self::fn()['code']]);
     }
 
     public function getBrmnSt()
@@ -204,22 +211,24 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
         return ArrayHelper::map(self::find()->all(), 'id', 'title');
     }
 
-    public function Showchoice($id)
+    public static function itemsAlias($key){
+
+        $items = [
+            'choice'=>[
+                '1' => 'ไปราชการ',
+                '2' => 'ค่าวัสดุตามหนังสืออนุมัติ',
+                '3' => 'เงินอื่นๆ',
+            ],
+        ];
+        return ArrayHelper::getValue($items,$key,[]);
+    }
+    public static function getItemChoice()
     {
-
-        /*$data = DepTransaction::findOne($this->id);
-
-        if ($data->credit != 0) {
-            $cap_bal = $cap_bal + ($data->credit - $data->debit);
-        }
-
-        if ($data->debit != 0) {
-            $int_bal = $int_bal + ($data->credit - $data->debit);
-        }
-
-        $total = $cap_bal + $int_bal;*/
-
-        return $this::CHOICE_ARR[$id];
+        return self::itemsAlias('choice');
+    }
+    //-----
+    public function getChoice(){
+        return ArrayHelper::getValue($this->getItemChoice(),$this->brmn_choice);
     }
     /*
     public static function itemsAlias($key) {

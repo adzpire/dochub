@@ -21,6 +21,7 @@ class Module extends \yii\base\Module
 
 		Yii::$app->formatter->locale = 'th_TH';
 		Yii::$app->formatter->calendar = \IntlDateFormatter::TRADITIONAL;
+        Yii::$app->formatter->nullDisplay = '-';
 		/*
 		 if (!isset(Yii::$app->i18n->translations['repair'])) {
             Yii::$app->i18n->translations['repair'] = [
@@ -33,8 +34,8 @@ class Module extends \yii\base\Module
 		parent::init();
 
 		$this->layout = 'dochub';
-		$this->params['ModuleVers'] = '1.0.0';
-		$this->params['title'] = 'ฐานข้อมูลเอกสารและแบบฟอร์มออนไลน์';
+		$this->params['ModuleVers'] = '2.0.0';
+		$this->params['title'] = 'ระบบสร้างแบบฟอร์มออนไลน์';
         // custom initialization code goes here
     }
 }
