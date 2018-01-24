@@ -28,6 +28,10 @@ use yii\widgets\Pjax;
                             'url' => ['/dochub/'.'borrowmoney'],
                         ],
                         [
+                            'label' => Html::icon($searchModel::farr(2)['revolvmoney']).' '.$searchModel::farr()['revolvmoney']. Html::tag('span', 'new', ['class' => 'badge pull-right']),
+                            'url' => ['/dochub/'.'revolvmoney'],
+                        ],
+                        [
                             'label' => Html::icon($searchModel::farr(2)['usebudget']).' '.$searchModel::farr()['usebudget'],
                             'url' => ['/dochub/'.'usebudget'],
                             //'count' => 'backend\modules\tc\models\DefaultUncompleteSearch',
@@ -44,10 +48,10 @@ use yii\widgets\Pjax;
                             'label' => Html::icon($searchModel::farr(2)['childedu']).' '.$searchModel::farr()['childedu'],
                             'url' => ['/dochub/'.'childedu'],
                         ],
-                        [
-                            'label' => Html::icon($searchModel::farr(2)['medicfee']).' '.$searchModel::farr()['medicfee'],
-                            'url' => ['/dochub/'.'medicfee'],
-                        ],
+//                        [
+//                            'label' => Html::icon($searchModel::farr(2)['medicfee']).' '.$searchModel::farr()['medicfee'],
+//                            'url' => ['/dochub/'.'medicfee'],
+//                        ],
                         [
                             'label' => Html::icon($searchModel::farr(2)['childedugov']).' '.$searchModel::farr()['childedugov'],
                             'url' => ['/dochub/'.'childedugov'],
@@ -57,7 +61,7 @@ use yii\widgets\Pjax;
                             'url' => ['/dochub/'.'medicfeegov'],
                         ],
                         [
-                            'label' => Html::icon($searchModel::farr(2)['receipt']).' '.$searchModel::farr()['receipt']. Html::tag('span', 'new', ['class' => 'badge pull-right']),
+                            'label' => Html::icon($searchModel::farr(2)['receipt']).' '.$searchModel::farr()['receipt'],
                             'url' => ['/dochub/'.'receipt'],
                         ],
                     ],
@@ -83,6 +87,10 @@ use yii\widgets\Pjax;
                             'url' => ['/dochub/'.'hirebudget'],
                             //'count' => 'backend\modules\tc\models\DefaultUncompleteSearch',
                         ],
+                        /*[
+                            'label' => Html::icon($searchModel::farr(2)['inventoryrepair']).' '.$searchModel::farr()['inventoryrepair']. Html::tag('span', 'new', ['class' => 'badge pull-right']),
+                            'url' => ['/dochub/'.'inventoryrepair'],
+                        ],*/
                     ],
                     'options' => ['class' => 'nav-stacked'], // set this to nav-tab to get tab-styled navigation
                 ]); ?>

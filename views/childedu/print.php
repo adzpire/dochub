@@ -193,9 +193,9 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                 <table width="650">
                     <tr>
                         <td width="100">
-                            &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_whole !== '0'){echo $checkedbox;}else echo $uncheckbox; ?> เต็มจำนวน <br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_half !== '0'){echo $checkedbox;}else echo $uncheckbox; ?> ครึ่งจำนวน<br />
-                            &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_piece !== '0'){echo $checkedbox;}else echo $uncheckbox; ?> เฉพาะส่วนที่ยังขาด<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_whole != '0'){echo $checkedbox;}else echo $uncheckbox; ?> เต็มจำนวน <br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_half != '0'){echo $checkedbox;}else echo $uncheckbox; ?> ครึ่งจำนวน<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_piece != '0'){echo $checkedbox;}else echo $uncheckbox; ?> เฉพาะส่วนที่ยังขาด<br />
                         </td>
                         <td width="290">
                             เป็นเงิน ...<u><?php echo number_format($model->ce_whole,2,'.',','); ?></u>... บาท<br />
@@ -205,7 +205,7 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                     </tr>
                     <tr>
                         <td colspan="2">
-                            &nbsp;&nbsp;&nbsp;&nbsp;รวมเป็นเงิน ...<u><?php echo number_format($model->ce_sum,2,'.',','); ?></u>... บาท ( ...<u><?php echo $thaibathtext; ?>บาทถ้วน</u>... )<br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;รวมเป็นเงิน ...<u><?php echo number_format($model->ce_sum,2,'.',','); ?></u>... บาท ( ...<u><?php echo $thaibathtext; ?></u>... )<br />
                             6. ข้าพเจ้าของรับรองว่า<br />
                             &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_agree == '1'){echo $checkedbox;}else echo $uncheckbox; ?> ข้าพเจ้ามีสิทธิ์ได้รับเงินช่วยเหลือตามระเบียบกองทุนพนักงานมหาวิทยาลัยสงขลานครินทร์ ว่าด้วยการจัดการสวัสดิการเกี่ยวกับการรักษาพยาบาลและการศึกษาของบุตรพนักงานมหาวิทยาลัย พ.ศ. 2551 <br />
                             &nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->ce_agree == '2'){echo $checkedbox;}else echo $uncheckbox; ?> สามีของข้าพเจ้ามิได้ใช้สิทธิ์ขอรับเงินช่วยเหลือจากหน่วยงานที่สังกัด<br />
@@ -277,7 +277,7 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
             <td colspan="2" class="tbcontent">
                 <p>9. ใบรับเงิน<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ได้รับเงินสวัสดิการเกี่ยวกับการศึกษาบุตร จำนวน ...<u><?php echo number_format($model->ce_sum,2,'.',','); ?></u>... บาท<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;( ...<u><?php echo $thaibathtext; ?>บาทถ้วน</u>... ) ไปถูกต้องแล้ว
+                    &nbsp;&nbsp;&nbsp;&nbsp;( ...<u><?php echo $thaibathtext; ?></u>... ) ไปถูกต้องแล้ว
                 </p>
                 <table align="center">
                     <tr>

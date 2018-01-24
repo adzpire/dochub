@@ -87,7 +87,7 @@ use yii\web\View;
                     'label' => 'col-md-7',
                     'wrapper' => 'col-md-5',
                 ],
-            ])->inline()->radioList([1,2,3])->label('การสอบประจำภาคเรียนที่') ?>
+            ])->inline()->radioList([1=>'1',2=>'2',3=>'3'])->label('การสอบประจำภาคเรียนที่') ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'exmmain_year')->widget(DatePicker::classname(), [
@@ -105,7 +105,7 @@ use yii\web\View;
     </div>
 
     <div class="col-md-12 form-group text-center">
-        <?= Html::submitButton(Html::icon('floppy-disk') . ' ' . Yii::t('app', 'บันทึก'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(Html::icon('play') . ' ' . Yii::t('app', 'ต่อไป'), ['class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']) ?>
         <?php
         echo ' ' . Html::a(Html::icon('ban-circle') . ' ' . Yii::t('app', 'ยกเลิก'), Yii::$app->request->referrer, ['class' => 'btn btn-warning']);
         ?>

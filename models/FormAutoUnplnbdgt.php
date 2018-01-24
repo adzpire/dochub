@@ -176,7 +176,16 @@ $query->joinWith(['unpbdgtSt', 'formAutoUnplnbdgtdetails', ]);*/
 public static function getFormAutoUnplnbdgtList(){
 		return ArrayHelper::map(self::find()->all(), 'id', 'title');
 	}
-
+    public function getTitleList()
+    {
+        $data = $this->formAutoUnplnbdgtdetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->unpbdgtdet_title.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
 /*
 public static function itemsAlias($key) {
         $items = [

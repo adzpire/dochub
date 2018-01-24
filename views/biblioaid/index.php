@@ -36,6 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'libaid_year',
         'libaid_reqamount',
         [
+            'label' => 'รายการ',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->orgList;
+            },
+
+        ],
+        [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update}  {pdf}',
             'buttons' => [

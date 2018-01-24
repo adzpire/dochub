@@ -75,7 +75,7 @@ use yii\helpers\Html;
                 ?>
                 <tr>
                     <td colspan="5">
-                        รวมจํานวนเงินตามใบเสร็จรับเงินทั้งสิ้น  <u><?php echo number_format($t_amount, 2, '.', ','); ?></u>  บาท  (<u><?php echo $thaibathtext1; ?>บาทถ้วน</u>)
+                        รวมจํานวนเงินตามใบเสร็จรับเงินทั้งสิ้น  <u><?php echo number_format($t_amount, 2, '.', ','); ?></u>  บาท  (<u><?php echo $thaibathtext1; ?></u>)
                     </td>
                 </tr>
             </table>
@@ -85,7 +85,7 @@ use yii\helpers\Html;
         <td width="100%" valign="middle">
             <p>&nbsp;</p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติเงินยืม จำนวน  &nbsp;&nbsp;<u><?php echo number_format($model->libaid_reqamount, 2, '.', ','); ?></u>&nbsp;&nbsp;บาท&nbsp;
-                (<?php echo $thaibathtext2; ?>บาทถ้วน) ให้ด้วย จะเป็นพระคุณยิ่ง </p>
+                (<?php echo $thaibathtext2; ?>) ให้ด้วย จะเป็นพระคุณยิ่ง </p>
         </td>
     </tr>
     <!-- 1 -->

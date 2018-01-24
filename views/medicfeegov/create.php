@@ -7,7 +7,7 @@ use yii\bootstrap\Html;
 /* @var $model backend\modules\dochub\models\FormAutoMfg */
 
 
-$this->params['breadcrumbs'][] = ['label' => 'Form Auto Mfgs', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model::fn()['name'], 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-auto-mfg-create">

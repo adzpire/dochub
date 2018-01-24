@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\FormAutoHirbdgt */
 
-$this->params['breadcrumbs'][] = ['label' => 'Form Auto Hirbdgts', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model::fn()['name'], 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-auto-hirbdgt-create">

@@ -164,11 +164,8 @@ use backend\components\ThaibudgetyearWidget;
         ])->textarea(['rows' => 4]) ?>
     </div>
     <div class="col-md-12 form-group text-center">
-        <?= Html::submitButton(Html::icon('floppy-disk') . ' ' . Yii::t('app', 'บันทึก'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(Html::icon('play') . ' ' . Yii::t('app', 'ต่อไป'), ['class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']) ?>
         <?php
-        if (!$model->isNewRecord) {
-            echo Html::a(Html::icon('list') . ' ' . Yii::t('app', 'เพิ่มรายการ'), ['qadddetail', 'id' => $model->hbdgt_id], ['class' => 'btn btn-success _qdetail']);
-        }
         echo ' ' . Html::a(Html::icon('ban-circle') . ' ' . Yii::t('app', 'ยกเลิก'), Yii::$app->request->referrer, ['class' => 'btn btn-warning']);
         ?>
 

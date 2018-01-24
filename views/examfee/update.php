@@ -108,7 +108,7 @@ $this->params['breadcrumbs'][] = 'อัพเดต';
                                 'label' => 'col-md-7',
                                 'wrapper' => 'col-md-5',
                             ],
-                        ])->inline()->radioList([1,2,3])->label('การสอบประจำภาคเรียนที่') ?>
+                        ])->inline()->radioList([1=>'1',2=>'2',3=>'3'])->label('การสอบประจำภาคเรียนที่') ?>
                     </div>
                     <div class="col-md-4">
                         <?= $form->field($model, 'exmmain_year')->widget(DatePicker::classname(), [
@@ -161,7 +161,7 @@ $this->params['breadcrumbs'][] = 'อัพเดต';
                 }
             ],
             [
-                'attribute' => 'exminfo_type',
+                'attribute' => 'exminfo_degree',
                 'value'=>function($model){
                     return $model->degree;
                 }

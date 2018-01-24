@@ -1,0 +1,186 @@
+<?php
+
+namespace backend\modules\dochub\models;
+
+use backend\modules\inventory\models\MainLocation;
+use Yii;
+use yii\helpers\ArrayHelper;
+use backend\modules\inventory\models\InvtMain;
+/**
+ * This is the model class for table "invt_repair_detail".
+ *
+ 
+ * @property integer $ird_id
+ * @property integer $ird_irID
+ * @property integer $ird_ivntID
+ * @property integer $ird_ivntLoc
+ * @property string $ird_symptom
+ * @property integer $ird_tchnchoice
+ * @property string $ird_tchncomment
+ * @property InvtRepair $irdIr
+ * @property InvtMain $irdIvnt
+ */
+class InvtRepairDetail extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'invt_repair_detail';
+    }
+
+public $irdIrName; 
+public $irdIvntName; 
+/*add rule in [safe]
+'irdIrName', 'irdIvntName', 
+join in searh()
+$query->joinWith(['irdIr', 'irdIvnt', ]);*/
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['ird_irID', 'ird_ivntID', 'ird_ivntLoc', 'ird_symptom'], 'required'],
+            [['ird_irID', 'ird_ivntID', 'ird_ivntLoc', 'ird_tchnchoice'], 'integer'],
+            [['ird_symptom', 'ird_tchncomment'], 'string', 'max' => 255],
+            [['ird_irID'], 'exist', 'skipOnError' => true, 'targetClass' => InvtRepair::className(), 'targetAttribute' => ['ird_irID' => 'ir_id']],
+            [['ird_ivntID'], 'exist', 'skipOnError' => true, 'targetClass' => InvtMain::className(), 'targetAttribute' => ['ird_ivntID' => 'id']],
+            [['ird_ivntLoc'], 'exist', 'skipOnError' => true, 'targetClass' => MainLocation::className(), 'targetAttribute' => ['ird_ivntLoc' => 'id']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'ird_id' => 'ID',
+            'ird_irID' => 'repairID',
+            'ird_ivntID' => 'inventoryID',
+            'ird_ivntLoc' => 'สถานที่',
+            'ird_symptom' => 'อาการชำรุด',
+            'ird_tchnchoice' => 'ผลการตรวจ-ตัวเลือก',
+            'ird_tchncomment' => 'ผลการตรวจ-ความเห็น',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIrdIr()
+    {
+        return $this->hasOne(InvtRepair::className(), ['ir_id' => 'ird_irID']);
+		
+			/*
+			$dataProvider->sort->attributes['irdIrName'] = [
+				'asc' => ['invt_repair.name' => SORT_ASC],
+				'desc' => ['invt_repair.name' => SORT_DESC],
+			];
+			
+			->andFilterWhere(['like', 'invt_repair.name', $this->irdIrName])
+			->orFilterWhere(['like', 'invt_repair.name1', $this->irdIrName])
+						in grid
+			[
+				'attribute' => 'irdIrName',
+				'value' => 'irdIr.name',
+				'label' => $searchModel->attributeLabels()['ird_irID'],
+				'filter' => \InvtRepair::irdIrList,
+			],
+			*/
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIrdIvnt()
+    {
+        return $this->hasOne(InvtMain::className(), ['id' => 'ird_ivntID']);
+		
+			/*
+			$dataProvider->sort->attributes['irdIvntName'] = [
+				'asc' => ['invt_main.name' => SORT_ASC],
+				'desc' => ['invt_main.name' => SORT_DESC],
+			];
+			
+			->andFilterWhere(['like', 'invt_main.name', $this->irdIvntName])
+			->orFilterWhere(['like', 'invt_main.name1', $this->irdIvntName])
+						in grid
+			[
+				'attribute' => 'irdIvntName',
+				'value' => 'irdIvnt.name',
+				'label' => $searchModel->attributeLabels()['ird_ivntID'],
+				'filter' => \InvtMain::irdIvntList,
+			],
+			*/
+    }
+
+    public function getIrdLoc()
+    {
+        return $this->hasOne(MainLocation::className(), ['id' => 'ird_ivntLoc']);
+    }
+
+public function getInvtRepairDetailList(){
+		return ArrayHelper::map(self::find()->all(), 'id', 'title');
+	}
+
+    public function getHospitalName(){
+        return @$this->irdIvnt->attributeLabels()['invt_name'];
+    }
+/*
+public static function itemsAlias($key) {
+        $items = [
+            'status' => [
+                0 => Yii::t('app', 'ร่าง'),
+                1 => Yii::t('app', 'เสนอ'),
+                2 => Yii::t('app', 'อนุมัติ'),
+                3 => Yii::t('app', 'ไม่อนุมัติ'),
+                4 => Yii::t('app', 'คืนแล้ว'),
+            ],
+            'statusCondition'=>[
+                1 => Yii::t('app', 'อนุมัติ'),
+                0 => Yii::t('app', 'ไม่อนุมัติ'),
+            ]
+        ];
+        return ArrayHelper::getValue($items, $key, []);
+    }
+
+    public function getStatusLabel() {
+        $status = ArrayHelper::getValue($this->getItemStatus(), $this->status);
+        $status = ($this->status === NULL) ? ArrayHelper::getValue($this->getItemStatus(), 0) : $status;
+        switch ($this->status) {
+            case 0 :
+            case NULL :
+                $str = '<span class="label label-warning">' . $status . '</span>';
+                break;
+            case 1 :
+                $str = '<span class="label label-primary">' . $status . '</span>';
+                break;
+            case 2 :
+                $str = '<span class="label label-success">' . $status . '</span>';
+                break;
+            case 3 :
+                $str = '<span class="label label-danger">' . $status . '</span>';
+                break;
+            case 4 :
+                $str = '<span class="label label-succes">' . $status . '</span>';
+                break;
+            default :
+                $str = $status;
+                break;
+        }
+
+        return $str;
+    }
+
+    public static function getItemStatus() {
+        return self::itemsAlias('status');
+    }
+    
+    public static function getItemStatusConsider() {
+        return self::itemsAlias('statusCondition');       
+    }
+*/
+}

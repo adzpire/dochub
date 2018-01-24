@@ -106,7 +106,7 @@ use backend\components\ThaibudgetyearWidget;
     </tr>
     <tr>
         <td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จึงเรียนมาเพื่อโปรดพิจาณาอนุมัติใช้เงินจํานวน  <u><?php echo number_format($t_amount, 2, '.', ','); ?></u>  บาท (<?php echo $thaibathtext . 'บาทถ้วน'; ?>)
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จึงเรียนมาเพื่อโปรดพิจาณาอนุมัติใช้เงินจํานวน  <u><?php echo number_format($t_amount, 2, '.', ','); ?></u>  บาท (<?php echo $thaibathtext; ?>)
         </td>
     </tr>
     <tr>

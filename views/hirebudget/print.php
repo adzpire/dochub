@@ -2,6 +2,9 @@
 //use Yii;
 use yii\helpers\Html;
 use backend\components\ThaibudgetyearWidget;
+
+$checkedbox = '<img width="16" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDMyIDMyIiBoZWlnaHQ9IjMycHgiIGlkPSLQodC70L7QuV8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnIGlkPSJDaGVja19TcXVhcmUiPjxwYXRoIGQ9Ik0zMCwwSDJDMC44OTUsMCwwLDAuODk1LDAsMnYyOGMwLDEuMTA1LDAuODk1LDIsMiwyaDI4YzEuMTA0LDAsMi0wLjg5NSwyLTJWMkMzMiwwLjg5NSwzMS4xMDQsMCwzMCwweiAgICBNMzAsMzBIMlYyaDI4VjMweiIgZmlsbD0iIzEyMTMxMyIvPjxwYXRoIGQ9Ik0xMi4zMDEsMjIuNjA3YzAuMzgyLDAuMzc5LDEuMDQ0LDAuMzg0LDEuNDI5LDBsMTAuOTk5LTEwLjg5OWMwLjM5NC0wLjM5LDAuMzk0LTEuMDI0LDAtMS40MTQgICBjLTAuMzk0LTAuMzkxLTEuMDM0LTAuMzkxLTEuNDI4LDBMMTMuMDExLDIwLjQ4OGwtNC4yODEtNC4xOTZjLTAuMzk0LTAuMzkxLTEuMDM0LTAuMzkxLTEuNDI4LDBjLTAuMzk1LDAuMzkxLTAuMzk1LDEuMDI0LDAsMS40MTQgICBMMTIuMzAxLDIyLjYwN3oiIGZpbGw9IiMxMjEzMTMiLz48L2c+PGcvPjxnLz48Zy8+PGcvPjxnLz48Zy8+PC9zdmc+" >';
+$uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVQ4jWNgYGD4TyGGEGSCUQNGDRg1gNoGkI0BF6E7xdLOry8AAAAASUVORK5CYII=" >';
 ?>
 
 <body>
@@ -106,7 +109,7 @@ use backend\components\ThaibudgetyearWidget;
                             echo '<strong><u>เพิ่มการคิดภาษี 7%</u></strong>';
                         }
                         ?>
-                        &nbsp;รวมเป็นเงินทั้งสิ้น&nbsp;&nbsp;(<?php echo $thaibathtext . 'บาทถ้วน'; ?>)
+                        &nbsp;รวมเป็นเงินทั้งสิ้น&nbsp;&nbsp;(<?php echo $thaibathtext; ?>)
                     </td>
                     <td scope="col" align="right">
                         <?php echo number_format($t_amount, 2, '.', ','); ?>
@@ -177,8 +180,8 @@ use backend\components\ThaibudgetyearWidget;
                                 <td>
                                     <p>
                                         <strong>3.  ความเห็นของคณบดี</strong><br />
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&#9744; อนุมัติ ………………………………………………………..<br />
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&#9744; ไม่อนุมัติ เนื่องจาก ...................................................
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $uncheckbox; ?> อนุมัติ ………………………………………………………..<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $uncheckbox; ?> ไม่อนุมัติ เนื่องจาก ...................................................
                                     </p>
                                 </td>
                             </tr>

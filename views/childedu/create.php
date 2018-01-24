@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\dochub\models\FormAutoCe */
 
-$this->params['breadcrumbs'][] = ['label' => 'Form Auto Ces', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model::fn()['name'], 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-auto-ce-create">

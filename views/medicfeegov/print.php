@@ -87,7 +87,7 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                                 เอกชน ตั้งแต่วันที่ ..<u><?php echo \Yii::$app->formatter->asDate($model->mfg_hosbdate, "long"); ?></u>.. ถึงวันที่ ..<u><?php echo \Yii::$app->formatter->asDate($model->mfg_hosedate, "long"); ?></u>..
                             </p>
                             <p>
-                                เป็นเงินรวมทั้งสิ้น ...<u><?php echo number_format($model->mfg_hosfee,2,'.',','); ?></u>... บาท ( ...<u><?php echo $thaibathtext1; ?>บาทถ้วน</u>... ) ตามใบเสร็จรับเงินที่แนบ จำนวน ...<u><?php echo $model->mfg_recnum; ?></u>... ฉบับ
+                                เป็นเงินรวมทั้งสิ้น ...<u><?php echo number_format($model->mfg_hosfee,2,'.',','); ?></u>... บาท ( ...<u><?php echo $thaibathtext1; ?></u>... ) ตามใบเสร็จรับเงินที่แนบ จำนวน ...<u><?php echo $model->mfg_recnum; ?></u>... ฉบับ
                             </p>
                         </td>
                     </tr>
@@ -231,7 +231,7 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
             <td class="tbcontent">
                 <p>8. ใบรับเงิน<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ได้รับเงินสวัสดิการเกี่ยวกับการรักษาพยาบาล จำนวน ...<u><?php echo number_format($model->mfg_amount,2,'.',','); ?></u>... บาท<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;( ...<u><?php echo $thaibathtext2; ?>บาทถ้วน</u>... ) ไปถูกต้องแล้ว
+                    &nbsp;&nbsp;&nbsp;&nbsp;( ...<u><?php echo $thaibathtext2; ?></u>... ) ไปถูกต้องแล้ว
                 </p>
                 <table align="center">
                     <tr>

@@ -91,15 +91,10 @@ use kartik\widgets\ActiveForm;*/
 ]);
 		*/
  ?>     <div class="form-group text-center">
-        <?= Html::submitButton( Html::icon('floppy-disk').' '.Yii::t('app', 'บันทึก'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton( $model->isNewRecord ?  Html::icon('play').' ต่อไป' :  Html::icon('floppy-disk').' บันทึก', ['class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-success']) ?>
         <?php
         if (!$model->isNewRecord) {
             echo Html::a(Html::icon('list') . ' ' . Yii::t('app', 'เพิ่มรายการ'), ['qadddetail', 'id' => $model->fid], ['class' => 'btn btn-success _qdetail', 'data-pjax'=>0]);
-//            if ($dataProvider->totalCount > 0) {
-//                echo ' '.Html::a(Html::icon('print') . ' ' . Yii::t('app', 'พิมพ์'), ['pdf', 'id' => $model->fid], ['class' => 'btn btn-default', 'data-pjax'=>0]);
-//            }else{
-//                echo ' '.Html::a(Html::icon('print') . ' ' . Yii::t('app', 'ไม่สามารถพิมพ์ได้(ต้องมีอย่างน้อย 1 รายการรายละเอียด)'), '', ['class' => 'btn btn-default disabled', 'data-pjax'=>0]);
-//            }
         }
         echo ' '.Html::a( Html::icon('ban-circle').' '.Yii::t('app', 'ยกเลิก'), Yii::$app->request->referrer, ['class' => 'btn btn-warning']);
         ?>

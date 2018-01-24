@@ -6,8 +6,8 @@ use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\dochub\models\FormAutoUsebdgt */
 
-$this->title = 'Create Form Auto Usebdgt';
-$this->params['breadcrumbs'][] = ['label' => 'Form Auto Usebdgts', 'url' => ['index']];
+
+$this->params['breadcrumbs'][] = ['label' => $model::fn()['name'], 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-auto-usebdgt-create">

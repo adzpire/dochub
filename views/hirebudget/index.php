@@ -35,8 +35,36 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'hbdgt_job',
         'hbdgt_org',
-        // 'hbdgt_reason:ntext',
-        // 'hbdgt_tax',
+        [
+            'label' => 'รายการ',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->titleList;
+            },
+
+        ],
+        [
+            'label' => 'จำนวน',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->amountList;
+            },
+
+        ],
+        [
+            'label' => 'ราคาที่สืบ',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->priceList;
+            },
+
+        ],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update}  {pdf}',

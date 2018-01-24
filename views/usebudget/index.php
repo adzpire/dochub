@@ -41,6 +41,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'usebdgt_year',
         'usebdgt_reason:ntext',
         [
+            'label' => 'รายการ',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->titleList;
+            },
+
+        ],
+        [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update}  {pdf}',
             'buttons' => [

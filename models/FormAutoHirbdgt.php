@@ -116,4 +116,35 @@ class FormAutoHirbdgt extends \yii\db\ActiveRecord
     {
         return $this->hasMany(FormAutoHirbdgtdetail::className(), ['hbdgtdet_hbid' => 'hbdgt_id']);
     }
+
+    public function getTitleList()
+    {
+        $data = $this->formAutoHirbdgtdetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->hbdgtdet_title.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
+    public function getAmountList()
+    {
+        $data = $this->formAutoHirbdgtdetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->hbdgtdet_amount.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
+    public function getPriceList()
+    {
+        $data = $this->formAutoHirbdgtdetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->hbdgtdet_xpecprice.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
 }

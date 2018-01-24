@@ -1,37 +1,28 @@
-การใช้งาน ระบบบันทึกข้อมูลผลงานอาจารย์
+การใช้งาน ระบบสร้างแบบฟอร์มออนไลน์
 -----------------
 
 **ภาพรวมของโปรแกรมทั้งหมด** ประกอบด้วย
-<img src="/uploads/tc_files/tc1.png" width="100%" />
+<img src="/uploads/dh_file/dh1.png" width="100%" />
 
->  - บันทึกข้อมูลใหม่ (หมายเลข1)
->  - รายการผลงานที่ยังไม่ครบ 100% (หมายเลข2)
->  - รายการผลงานทั้งหมด (หมายเลข3)
+>  - เลือกแบบฟอร์มที่ต้องการสร้าง (หมายเลข1)
+>  - รายการแบบฟอร์มที่เคยสร้างมา (หมายเลข2)
 
 ----------
-### การใช้งาน
-<img src="/uploads/tc_files/tc2.png" width="100%" />
+### การใช้งานเบื้องต้นในแต่ละแบบฟอร์ม
+<img src="/uploads/dh_file/dh2.png" width="100%" />
 
->  **บันทึกข้อมูลใหม่:**
+>  **การสร้างแบบฟอร์ม:**
 >
->  1. กดปุ่มขอใช้ <a class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> เพิ่มใหม่</a>
->  2. กรอกข้อมูลส่วนต่างๆ (หมายเลข4)
->  3. เลือกจำนวนเปอร์เซ็นที่ต้องการ แล้วบันทึก (หมายเลข5)
+>  1. กดปุ่ม <a class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> สร้างแบบฟอร์มใหม่</a> เพื่อสร้างแบบฟอร์มใหม่ (หมายเลข 3)
+>  2. กดปุ่ม <a class="btn btn-danger"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> แสดงตัวอย่่าง</a> เพื่อดูตัวอย่าง (หมายเลข 4)
+>  3. รายการที่เคยสร้าง (หมายเลข 5)
+>  4. ค้นหา / จัดเรียง (หมายเลข 6)
+>  5. แก้ไข / พิมพ์ (หมายเลข 7)
 
-<img src="/uploads/tc_files/tc3.png" width="100%" />
+<img src="/uploads/dh_file/dh3.png" width="100%" />
 
->  **การคัดลอกผลงานที่ยังไม่ครบ 100 %:**
+>  **การกรอกข้อมูลและพิมพ์ฟอร์ม:**
 >
->  1. กดปุ่ม<a class="btn btn-default"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span> รายการที่ยังไม่ครบ 100 %</a>
->  2. กดปุ่ม คัดลอก <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>(หมายเลข6)
->  3. ยืนยันการคัดลอก (หมายเลข7)
->  2. กรอกข้อมูลส่วนต่างๆ พร้อมจำนวนเปอร์เซ็นที่ต้องการ แล้วบันทึก (หมายเลข8)
+>  1. กดปุ่ม <a class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> บันทึก</a> เพื่อสร้างฟอร์มและแสดงปุ่มพิมพ์ (หมายเลข 8)
+>  2. ปุ่มพิมพ์ <a class="btn btn-danger"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> พิมพ์</a> จะปรากฏขึ้นเมื่อบันทึกหรือเพิ่มรายละเอียดแล้ว เพื่อพิมพ์ pdf (หมายเลข 9)
 
-<img src="/uploads/tc_files/tc4.png" width="100%" />
-
->  **รายการผลงานทั้งหมด:**
->
->  1. รายการผลงานที่สามารถแก้ไขได้ <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> (หมายเลข9)
-
-> **หมายเหตุ:**
-> - ไม่สามารถแก้ไขหรือลบแบบฟอร์มได้อีก หากไม่ได้รับอนุญาตจากเจ้าหน้าที่

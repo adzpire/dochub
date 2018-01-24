@@ -48,6 +48,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
             [
+                'label' => 'รายการ',
+                'format' => 'html',
+                'filter' =>false,
+                'enableSorting' =>false,
+                'value' => function($data) {
+                    return $data->titleList;
+                },
+
+            ],
+            [
+                'label' => 'จำนวนเงิน',
+                'format' => 'html',
+                'filter' =>false,
+                'enableSorting' =>false,
+                'value' => function($data) {
+                    return $data->amountList;
+                },
+
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{copy} {update}  {pdf}',
                 'buttons' => [

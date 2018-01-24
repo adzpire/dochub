@@ -197,7 +197,7 @@ use yii\helpers\Url;
                 //'value'=>'2015-10-19 12:00 AM - 2015-11-03 01:00 PM',
                 'convertFormat' => true,
                 'hideInput' => true,
-                'presetDropdown'=>true,
+                //'presetDropdown'=>true,
                 'language'=>'th',
                 'startAttribute' => 'brmn_bdate',
                 'endAttribute' => 'brmn_edate',

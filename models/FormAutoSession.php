@@ -177,6 +177,9 @@ public static function getFormAutoSessionList(){
         //--
         $farray[FormAutoRc::fn()['code']] = FormAutoRc::fn()['name'];
         $ficonarr[FormAutoRc::fn()['code']] = FormAutoRc::fn()['icon'];
+        //--
+        $farray[FormAutoBrrvmn::fn()['code']] = FormAutoBrrvmn::fn()['name'];
+        $ficonarr[FormAutoBrrvmn::fn()['code']] = FormAutoBrrvmn::fn()['icon'];
         if($sel == 1){return $farray;}
         elseif ($sel == 2){return $ficonarr;}
     }

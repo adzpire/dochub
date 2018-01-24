@@ -153,4 +153,15 @@ class FormAutoUsebdgt extends \yii\db\ActiveRecord
     {
         return $this->hasMany(FormAutoUsebdgtdetail::className(), ['usebdgtdet_ubid' => 'usebdgt_id']);
     }
+
+    public function getTitleList()
+    {
+        $data = $this->formAutoUsebdgtdetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->usebdgtdet_title.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
 }

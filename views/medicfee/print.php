@@ -270,7 +270,7 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
             <td colspan="2" class="tbcontent">
                 <p>9. ใบรับเงิน<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ได้รับเงินสวัสดิการเกี่ยวกับการศึกษาบุตร จำนวน ...<u><?php echo number_format($model->mf_want,2,'.',','); ?></u>... บาท<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;( ...<u><?php echo $thaibathtext; ?>บาทถ้วน</u>... ) ไปถูกต้องแล้ว
+                    &nbsp;&nbsp;&nbsp;&nbsp;( ...<u><?php echo $thaibathtext; ?></u>... ) ไปถูกต้องแล้ว
                 </p>
                 <p>&nbsp;</p>
                 <table align="center">

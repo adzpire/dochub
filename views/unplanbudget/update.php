@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'อัพเดต');
                     'method' => 'post',
                 ],
             ])*/ ?>
-            <?= Html::a(Html::icon('pencil') . ' ' . Yii::t('app', 'createnew'), ['create'], ['class' => 'btn btn-info panbtn']) ?>
+            <?= Html::a(Html::icon('pencil') . ' ' . Yii::t('app', 'สร้างใหม่'), ['create'], ['class' => 'btn btn-info panbtn']) ?>
         </div>
         <div class="panel-body">
             <div class="form-auto-unplnbdgt-form">

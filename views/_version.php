@@ -35,7 +35,7 @@ Alert::begin([
         'data-target' => '#demo',
     ],
 ]);
-echo Html::a('ปิดการแจ้งเตือน 30 วัน', ['/tc/default/setvercookies'],
+echo Html::a('ปิดการแจ้งเตือน 30 วัน', ['default/setvercookies'],
     [
         'class' => 'btn btn-xs btn-danger',
     ]);
@@ -43,9 +43,13 @@ echo Html::a('ปิดการแจ้งเตือน 30 วัน', ['/tc
 <!--<a id="blink" data-original-title="ปิดการแจ้งเตือน 30 วัน" data-toggle="tooltip" href="--><?php //echo Url::toRoute('/tc/default/setvercookies'); //echo Yii::$app()->baseUrl.'/cmmslib/default/setvercookies' ?><!--" class="alert-link text-danger glyphicon glyphicon-off"></a>-->
 <div id="demo" class="collapse">
     <h4>version <?php echo Yii::$app->controller->module->params['ModuleVers']; ?></h4>
-    <ul>
-        <li>แก้ไขชื่อระบบ</li>
-    </ul>
+    <?php echo $this->render('/_changelog'); ?>
+    <?php
+    echo Html::a('แสดงการปรับปรุงทั้งหมด', ['default/changelog'],
+        [
+            'class' => 'btn btn-xs btn-warning',
+        ]);
+    ?>
 </div>
 
 <?php Alert::end(); ?>

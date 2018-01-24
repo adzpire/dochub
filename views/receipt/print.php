@@ -75,7 +75,7 @@ use yii\helpers\Html;
             &nbsp;
         </td>
         <td width="60%">
-            <p>จำนวนเงิน <u><?php echo $thaibathtext; ?>บาทถ้วน</u></p>
+            <p>จำนวนเงิน <u><?php echo $thaibathtext; ?></u></p>
         </td>
     </tr>
 </table>

@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\dochub\models\FormAutoExm */
 
-$this->params['breadcrumbs'][] = ['label' => 'Form Auto Exms', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model::fn()['name'], 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="form-auto-exm-create">

@@ -8,6 +8,7 @@ use backend\modules\dochub\models\FormAutoSessionSearch;
 use backend\modules\person\models\Person;
 
 use backend\modules\intercom\models\MainIntercom;
+use yii\helpers\Url;
 /**
  * Default controller for the `dochub` module
  */
@@ -19,10 +20,10 @@ class DefaultController extends Controller
      */
     public $checkperson;
     public $moduletitle;
-    public function beforeAction(){
+    public function beforeAction($action){
 //        $this->checkperson = Person::findOne([Yii::$app->user->id]);
         $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-        return true;
+        return parent::beforeAction($action);
     }
     public function actionIndex()
     {
@@ -52,5 +53,24 @@ class DefaultController extends Controller
         } else {
             echo json_encode(['-', '-']);
         }
+    }
+
+    public function actionReadme()
+    {
+        return $this->render('readme');
+    }
+    public function actionChangelog()
+    {
+        return $this->render('changelog');
+    }
+    public function actionSetvercookies()
+    {
+        $cookie = \Yii::$app->response->cookies;
+        $cookie->add(new \yii\web\Cookie([
+            'name' => \Yii::$app->controller->module->params['modulecookies'],
+            'value' => \Yii::$app->controller->module->params['ModuleVers'],
+            'expire' => time() + (60*60*24*30),
+        ]));
+        $this->redirect(Url::previous());
     }
 }

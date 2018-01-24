@@ -66,7 +66,7 @@ class FormAutoExmDetail extends \yii\db\ActiveRecord
             'exminfo_course' => 'วิชาที่สอบ',
             'exminfo_type' => 'ชนิดข้อสอบ',
             'exminfo_degree' => 'ปริญญา',
-            'exminfo_hour' => 'ชั่วโมง',
+            'exminfo_hour' => 'ชั่วโมงที่สอบ',
             'exminfo_stdamount' => 'จำนวนผู้เข้าสอบ',
             'exminfo_fee' => 'ค่าตรวจ',
             'exminfo_note' => 'หมายเหตุ',

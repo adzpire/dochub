@@ -25,8 +25,58 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width' => '50px',
             ],
         ],
-        'exmmain_semester',
-        'exmmain_year',
+        [
+            'attribute' => 'exmmain_semester',
+            'headerOptions' => [
+                'width' => '90px',
+            ],
+        ],
+        [
+            'attribute' => 'exmmain_year',
+            'headerOptions' => [
+                'width' => '90px',
+            ],
+        ],
+        [
+            'label' => 'วิชา',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->courseList;
+            },
+
+        ],
+        [
+            'label' => 'ชนิดข้อสอบ',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->degreeList;
+            },
+
+        ],
+        [
+            'label' => 'เวลา(ชม.)',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->timeList;
+            },
+
+        ],
+        [
+            'label' => 'จำนวน นศ.',
+            'format' => 'html',
+            'filter' =>false,
+            'enableSorting' =>false,
+            'value' => function($data) {
+                return $data->stdamountList;
+            },
+
+        ],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{update}  {pdf}',

@@ -8,7 +8,7 @@ use backend\modules\dochub\models\FormAutoMfgSearch;
 
 use backend\modules\person\models\Person;
 
-use backend\modules\intercom\models\MainIntercom;
+use backend\components\AdzpireComponent;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -45,10 +45,10 @@ class MedicfeegovController extends Controller
     }
 
     public $moduletitle;
-    public function beforeAction(){
+    public function beforeAction($action){
         //$this->checkperson = Person::findOne([Yii::$app->user->id]);
         $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-        return true;
+        return parent::beforeAction($action);
     }
     /**
      * Lists all FormAutoMfg models.
@@ -97,20 +97,10 @@ class MedicfeegovController extends Controller
             $model->mfg_date = date('Y-m-d');
             //$model->ce_sum = $model->ce_whole + $model->ce_piece + $model->ce_half;
             if($model->save()){
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-                ]);
+                AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
                 return $this->redirect(['update', 'id' => $model->fid]);
             }else{
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-                ]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
             }
             print_r($model->getErrors());exit;
         } else {
@@ -146,20 +136,10 @@ class MedicfeegovController extends Controller
         }
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-                ]);
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
                 return $this->redirect(['update', 'id' => $model->fid]);
             }else{
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-                ]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
             }
             print_r($model->getErrors());exit;
         } else {
@@ -187,6 +167,8 @@ class MedicfeegovController extends Controller
     {
         $this->findModel($id)->delete();
 
+        AdzpireComponent::succalert('edtflsh', 'ลบรายการเรียบร้อย');
+
         return $this->redirect(['index']);
     }
 
@@ -213,8 +195,8 @@ class MedicfeegovController extends Controller
 //        $intmdl = MainIntercom::find()
 //            ->where(['staff_id' => $model->mfg_stid])
 //            ->one();
-        $thaibathtext1 = str_replace('​', '', \Yii::$app->formatter->asSpellout($model->mfg_hosfee));
-        $thaibathtext2 = str_replace('​', '', \Yii::$app->formatter->asSpellout($model->mfg_amount));
+        $thaibathtext1 = AdzpireComponent::thaibath($model->mfg_hosfee);
+        $thaibathtext2 = AdzpireComponent::thaibath($model->mfg_amount);
         $pdf = new Pdf([
             //'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
             'content' => $this->renderPartial('print', [

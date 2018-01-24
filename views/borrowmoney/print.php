@@ -53,7 +53,7 @@ use yii\helpers\Html;
                     ?></u> &nbsp;&nbsp;&nbsp;ตำแหน่ง &nbsp;&nbsp;<u><?php echo $model->brmnSt->position->name_th; ?></u>&nbsp; &nbsp;&nbsp;&nbsp;อัตราเงินเดือน&nbsp;<u><?php echo number_format($model->brmn_salary, 2, '.', ','); ?></u>
                     &nbsp;บาท&nbsp;&nbsp;มีความประสงค์ขอยืมเงินรายได้มหาวิทยาลัย จำนวนเงิน
                     &nbsp;<u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u>
-                    &nbsp;&nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?> บาท) &nbsp; เพื่อสำรองค่าใช้จ่าย&nbsp;&nbsp;<u>
+                    &nbsp;&nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?>) &nbsp; เพื่อสำรองค่าใช้จ่าย&nbsp;&nbsp;<u>
                     <?php //echo $choicelist[$model->brmn_choice];
                     if ($model->brmn_choice == '1') {
                         echo "ในการเดินทางไปราชการ เรื่อง " . $model->brmn_title . "  ที่ " . $model->brmn_place . " ระหว่างวันที่  " . \Yii::$app->formatter->asDate($model->brmn_bdate, "long") . "  ถึงวันที่  " . \Yii::$app->formatter->asDate($model->brmn_edate, "long");
@@ -88,7 +88,7 @@ use yii\helpers\Html;
     </tr>
     <tr>
         <td width="100%" valign="middle"><span class='style4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติเงินยืม จำนวน  &nbsp;&nbsp;<u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u>&nbsp;&nbsp;บาท&nbsp;
-                (<?php echo $thaibathtext; ?> บาท) ให้ด้วย จะเป็นพระคุณยิ่ง </span></td>
+                (<?php echo $thaibathtext; ?>) ให้ด้วย จะเป็นพระคุณยิ่ง </span></td>
     </tr>
     <!-- 1 -->
     <tr>
@@ -131,7 +131,7 @@ use yii\helpers\Html;
                                 <tr>
                                     <td>
                                         <div align="left">
-                                          <span class='style4'>&nbsp;&nbsp;&nbsp;เห็นควรนำเสนอรองอธิการบดีเพื่อพิจารณาอนุมัติ<br>เงินยืมจำนวนเงิน <u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u>  บาท<br/>(<?php echo $thaibathtext; ?> บาท)&nbsp;
+                                          <span class='style4'>&nbsp;&nbsp;&nbsp;เห็นควรนำเสนอรองอธิการบดีเพื่อพิจารณาอนุมัติ<br>เงินยืมจำนวนเงิน <u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u>  บาท<br/>(<?php echo $thaibathtext; ?>)&nbsp;
                                           <br>
                                           </span>
                                         </div>
@@ -210,7 +210,7 @@ use yii\helpers\Html;
         </td>
         <td style=" border-bottom:none" height="24" colspan="2">
             <span class='style4'>
-                <strong>เลขที่ ...................................................</strong>
+                <strong>เลขที่ .................................................</strong>
             </span>
         </td>
     </tr>
@@ -243,7 +243,7 @@ use yii\helpers\Html;
     </tr>
     <tr>
         <td height="43">ตัวอักษร
-            <span class="style4"><?php echo $thaibathtext; ?>บาท</span>
+            <span class="style4"><?php echo $thaibathtext; ?></span>
         </td>
         <td width="100" height="43">รวมเงิน(บาท)</td>
         <td width="125" height="43">
@@ -274,7 +274,7 @@ use yii\helpers\Html;
         <td style="padding:10px 0px; border-bottom:none;" colspan="3" class="style4">&nbsp;เสนอ
             ................................................<br> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ได้ตรวจสอบแล้ว เห็นสมควรอนุมัติให้ยืมตามใบยืมฉบับนี้ได้ จำนวน
                 <u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u>
-                &nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?> บาท)</span></td>
+                &nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?>)</span></td>
     </tr>
     <tr>
         <td style=" border-top:none" height="55" colspan="3">
@@ -299,7 +299,7 @@ use yii\helpers\Html;
     <tr>
         <td colspan="3" class="style4" style="padding:5px 0px 10px 5px; border:none;">อนุมัติให้ยืมตามเงื่อนไขข้างต้นได้
             เป็นเงิน <u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u>
-            &nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?> บาท)
+            &nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?>)
         </td>
     </tr>
     <tr>
@@ -318,7 +318,7 @@ use yii\helpers\Html;
     </tr>
     <tr>
         <td style="border:none;" colspan="3" class="style4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ได้รับเงินยืมจำนวน
-            <u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u> บาท (<?php echo $thaibathtext; ?> บาท)
+            <u><?php echo number_format($model->brmn_borrow, 2, '.', ','); ?></u> บาท (<?php echo $thaibathtext; ?>)
         </td>
     </tr>
     <tr>

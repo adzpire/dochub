@@ -34,7 +34,8 @@ class Module extends \yii\base\Module
 		parent::init();
 
 		$this->layout = 'dochub';
-		$this->params['ModuleVers'] = '2.0.0';
+		$this->params['ModuleVers'] = '2.1';
+        $this->params['modulecookies'] = 'dochubck';
 		$this->params['title'] = 'ระบบสร้างแบบฟอร์มออนไลน์';
         // custom initialization code goes here
     }

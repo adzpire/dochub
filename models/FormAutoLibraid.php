@@ -109,4 +109,26 @@ class FormAutoLibraid extends \yii\db\ActiveRecord
     {
         return $this->hasMany(FormAutoLibraidetail::className(), ['libraidet_mainid' => 'libaid_id']);
     }
+
+    public function getOrgList()
+    {
+        $data = $this->formAutoLibraidetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->libraidet_org.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
+
+    public function getAmountList()
+    {
+        $data = $this->formAutoLibraidetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->libraidet_amount.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
 }

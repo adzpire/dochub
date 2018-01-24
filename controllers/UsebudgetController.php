@@ -12,6 +12,8 @@ use backend\modules\person\models\Person;
 
 use backend\modules\intercom\models\MainIntercom;
 
+use backend\components\AdzpireComponent;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -46,9 +48,9 @@ class UsebudgetController extends Controller
     }
 
     public $moduletitle;
-    public function beforeAction(){
+    public function beforeAction($action){
         $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-        return true;
+        return parent::beforeAction($action);
     }
 
     /**
@@ -93,20 +95,10 @@ class UsebudgetController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-                ]);
+                AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
                 return $this->redirect(['update', 'id' => $model->usebdgt_id]);
             }else{
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-                ]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
             }
             print_r($model->getErrors());exit;
         } else {
@@ -136,20 +128,10 @@ class UsebudgetController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                Yii::$app->getSession()->setFlash('edtflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
-                ]);
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
                 return $this->redirect(['view', 'id' => $model->usebdgt_id]);
             }else{
-                Yii::$app->getSession()->setFlash('edtflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
-                ]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
             }
             print_r($model->getErrors());exit;
         } else {
@@ -182,6 +164,8 @@ class UsebudgetController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
+        AdzpireComponent::succalert('edtflsh', 'ลบรายการเรียบร้อย');
 
         return $this->redirect(['index']);
     }
@@ -275,7 +259,7 @@ class UsebudgetController extends Controller
             return $this->redirect(['update', 'id' => $model->usebdgt_id]);
         }
         $sumdetails = FormAutoUsebdgtdetail::find()->where(['usebdgtdet_ubid' => $model->usebdgt_id])->sum('usebdgtdet_amount');
-        $thaibathtext = str_replace('​', '', \Yii::$app->formatter->asSpellout($sumdetails));
+        $thaibathtext = AdzpireComponent::thaibath($sumdetails);
 //        return $this->renderPartial('print', [
 //            'model' => $model,
 //            'intmdl' => $intmdl,

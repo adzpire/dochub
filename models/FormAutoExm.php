@@ -107,4 +107,45 @@ class FormAutoExm extends \yii\db\ActiveRecord
     {
         return $this->hasMany(FormAutoExmDetail::className(), ['exminfo_exmid' => 'exmmain_id']);
     }
+
+    public function getCourseList()
+    {
+        $data = $this->formAutoExmDetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->exminfoCourse->c_nameTh.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
+    public function getDegreeList()
+    {
+        $data = $this->formAutoExmDetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->degree.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
+    public function getTimeList()
+    {
+        $data = $this->formAutoExmDetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->exminfo_hour.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
+    public function getStdamountList()
+    {
+        $data = $this->formAutoExmDetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->exminfo_stdamount.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
 }

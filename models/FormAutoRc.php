@@ -209,7 +209,26 @@ $query->joinWith(['rcSt', 'rcPa', 'formAutoRcdetails', ]);*/
 public function getFormAutoRcList(){
 		return ArrayHelper::map(self::find()->all(), 'id', 'title');
 	}
-
+    public function getTitleList()
+    {
+        $data = $this->formAutoRcdetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->rcd_detail.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
+    public function getAmountList()
+    {
+        $data = $this->formAutoRcdetails;
+        $doc = '<ul>';
+        foreach($data as $book) {
+            $doc .= '<li>'.$book->rcd_amount.'</li>';
+        }
+        $doc .= '</ul>';
+        return $doc;
+    }
 /*
 public static function itemsAlias($key) {
         $items = [

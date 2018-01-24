@@ -49,7 +49,16 @@ $this->registerCss("
                     'width' => '100px',
                 ],
             ],
-            // 'unpbdgt_tax',
+            [
+                'label' => 'รายการ',
+                'format' => 'html',
+                'filter' =>false,
+                'enableSorting' =>false,
+                'value' => function($data) {
+                    return $data->titleList;
+                },
+
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update}  {pdf}',

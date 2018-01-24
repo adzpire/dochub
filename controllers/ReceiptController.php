@@ -17,6 +17,8 @@ use backend\modules\thailocale\models\LocaleDistrict;
 
 use backend\modules\intercom\models\MainIntercom;
 
+use backend\components\AdzpireComponent;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -52,9 +54,9 @@ class ReceiptController extends Controller
 
     public $moduletitle;
 
-    public function beforeAction(){
+    public function beforeAction($action){
         $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-        return true;
+        return parent::beforeAction($action);
 		  /* 
         if(ArrayHelper::isIn(Yii::$app->user->id, Yii::$app->controller->module->params['adminModule'])){
             //echo 'you are passed';
@@ -119,20 +121,10 @@ class ReceiptController extends Controller
             if(Yii::$app->request->post()['FormAutoRc']['rc_paid'] == ''){$model->rc_paid =  NULL;}
 
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => 'เพิ่มรายการใหม่เรียบร้อย',
-				]);
+                AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
 			return $this->redirect(['update', 'id' => $model->fid]);
 			}else{
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => 'เพิ่มรายการไม่ได้',
-				]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
 			}
             print_r($model->getErrors());
             exit;
@@ -167,26 +159,16 @@ class ReceiptController extends Controller
     {
 		 $model = $this->findModel($id);
         //echo $model->rc_paid;exit;
-		 Yii::$app->view->title = 'ปรับปรุงรายการ Form Auto Rc: ' . $model->fid.' - '.Yii::t('app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = 'ปรับปรุงรายการ '.$model::fn()['name'].': ' . $model->fid.' - '.Yii::t('app', Yii::$app->controller->module->params['title']);
 		 
         if ($model->load(Yii::$app->request->post())) {
             if(Yii::$app->request->post()['FormAutoRc']['rc_paid'] == ''){$model->rc_paid =  NULL;}
 
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => 'ปรับปรุงรายการเรียบร้อย',
-				]);
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
 			return $this->redirect(['update', 'id' => $model->fid]);
 			}else{
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => 'ปรับปรุงรายการไม่ได้',
-				]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
 			}
             print_r($model->getErrors());
             exit;
@@ -224,14 +206,8 @@ class ReceiptController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-		
-		Yii::$app->getSession()->setFlash('edtflsh', [
-			'type' => 'success',
-			'duration' => 4000,
-			'icon' => 'glyphicon glyphicon-ok-circle',
-			'message' => 'ลบรายการเรียบร้อย',
-		]);
-		
+
+        AdzpireComponent::succalert('edtflsh', 'ลบรายการเรียบร้อย');
 
         return $this->redirect(['index']);
     }
@@ -351,7 +327,7 @@ class ReceiptController extends Controller
         }
         $sumdetails = FormAutoRcdetail::find()->where(['rcd_rcid' => $model->fid])->sum('rcd_amount');
         //$sumdetails = ($model->hbdgt_tax == 1) ? $sumdetails*1.07 : $sumdetails;
-        $thaibathtext = str_replace('​', '', \Yii::$app->formatter->asSpellout($sumdetails));
+        $thaibathtext = AdzpireComponent::thaibath($sumdetails);
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
             'content' => $this->renderPartial('print', [
@@ -440,20 +416,10 @@ class ReceiptController extends Controller
         $model->rc_getfrom = $orimodel->rc_getfrom;
         $model->rc_date = $orimodel->rc_date;
         if($model->save()){
-            Yii::$app->getSession()->setFlash('addflsh', [
-                'type' => 'success',
-                'duration' => 4000,
-                'icon' => 'glyphicon glyphicon-ok-circle',
-                'message' => 'คัดลอกรายการเรียบร้อย',
-            ]);
+            AdzpireComponent::succalert('addflsh', 'คัดลอกรายการเรียบร้อย');
             return $this->redirect(['update', 'id' => $model->fid]);
         }else{
-            Yii::$app->getSession()->setFlash('addflsh', [
-                'type' => 'danger',
-                'duration' => 4000,
-                'icon' => 'glyphicon glyphicon-remove-circle',
-                'message' => 'คัดลอกรายการไม่ได้',
-            ]);
+            AdzpireComponent::dangalert('addflsh', 'คัดลอกรายการไม่ได้');
         }
     }
 }

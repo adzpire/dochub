@@ -94,7 +94,7 @@ use yii\helpers\Html;
                             <p>&nbsp;</p>
                         </td>
                         <td width="50%" class="style4">
-                            <p>ได้รับเงิน <u><?php echo number_format($t_amount, 2, '.', ','); ?></u> บาท (ตัวอักษร) <u><?php echo $thaibathtext . 'บาท'; ?></u> แล้ว</p>
+                            <p>ได้รับเงิน <u><?php echo number_format($t_amount, 2, '.', ','); ?></u> บาท (ตัวอักษร) <u><?php echo $thaibathtext; ?></u> แล้ว</p>
                             <p>&nbsp;</p>
                             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="style4">
                                 <tr>

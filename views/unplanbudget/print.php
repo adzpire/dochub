@@ -110,7 +110,7 @@ use backend\components\ThaibudgetyearWidget;
                             echo '<strong><u>เพิ่มการคิดภาษี 7%</u></strong>';
                         }
                         ?>
-                        &nbsp;รวมเป็นเงินทั้งสิ้น&nbsp;&nbsp;(<?php echo $thaibathtext . 'บาทถ้วน'; ?>)
+                        &nbsp;รวมเป็นเงินทั้งสิ้น&nbsp;&nbsp;(<?php echo $thaibathtext; ?>)
                     </td>
                     <td scope="col" align="right">
                         <?php echo number_format($t_amount, 2, '.', ','); ?>

@@ -10,6 +10,8 @@ use backend\modules\person\models\Person;
 
 use backend\modules\intercom\models\MainIntercom;
 
+use backend\components\AdzpireComponent;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -46,11 +48,11 @@ class BorrowmoneyController extends Controller
     public $checkperson;
     public $moduletitle;
 
-    public function beforeAction()
+    public function beforeAction($action)
     {
         //$this->checkperson = Person::findOne([Yii::$app->user->id]);
         $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-        return true;
+        return parent::beforeAction($action);
     }
 
     /**
@@ -118,20 +120,10 @@ class BorrowmoneyController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-                ]);
-                return $this->redirect(['view', 'id' => $model->brmn_id]);
+                AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
+                return $this->redirect(['update', 'id' => $model->brmn_id]);
             } else {
-                Yii::$app->getSession()->setFlash('addflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-                ]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
             }
             print_r($model->getErrors());
             exit;
@@ -168,22 +160,12 @@ class BorrowmoneyController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                Yii::$app->getSession()->setFlash('edtflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
-                ]);
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
                 return $this->redirect(['view', 'id' => $model->brmn_id]);
             } else {
-                Yii::$app->getSession()->setFlash('edtflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-remove-circle',
-                    'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
-                ]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
             }
-            return $this->redirect(['view', 'id' => $model->brmn_id]);
+            print_r($model->getErrors());exit();
         }
 
         $qstaff = Person::getPersonList();
@@ -212,13 +194,7 @@ class BorrowmoneyController extends Controller
     {
         $this->findModel($id)->delete();
 
-        Yii::$app->getSession()->setFlash('edtflsh', [
-            'type' => 'success',
-            'duration' => 4000,
-            'icon' => 'glyphicon glyphicon-ok-circle',
-            'message' => Yii::t('app', 'ลบรายการเรียบร้อย'),
-        ]);
-
+        AdzpireComponent::succalert('edtflsh', 'ลบรายการเรียบร้อย');
 
         return $this->redirect(['index']);
     }
@@ -278,13 +254,8 @@ class BorrowmoneyController extends Controller
         $intmdl = MainIntercom::find()
             ->where(['staff_id' => $model->brmn_stid])
             ->one();
-//        $tmptext = \Yii::$app->formatter->asSpellout($model->brmn_borrow);
-        //$thaibathtext = html_entity_decode(\Yii::$app->formatter->asSpellout($model->brmn_borrow));
-//        $thaibathtext = htmlspecialchars($tmptext);
-        $thaibathtext = str_replace('​', '', \Yii::$app->formatter->asSpellout($model->brmn_borrow));
-//        $thaibathtext = 'หนึ่งร้อยสี่สิบห้า';
-        //echo $thaibathtext;
-        //exit();
+        $thaibathtext = AdzpireComponent::thaibath($model->brmn_borrow);
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
             'content' => $this->renderPartial('print', [
@@ -340,7 +311,91 @@ class BorrowmoneyController extends Controller
                   font-size: 25px;
                 }
                 .style4{
+                  font-size: 22px;
+                  font-weight: 900;
+                }
+                .fixpos {
+                    position: absolute;
+                    right: 300px;
+                }
+                @media print {
+                    .noprint {
+                        display: none;
+                    }
+                }
+            ',
+            'methods' => [
+                //'SetHeader' => ['Generated By: Krajee Pdf Component||Generated On: ' . date("r")],
+                //'SetFooter' => ['|Page {PAGENO}|'],
+            ]
+        ]);
+        return $pdf->render();
+    }
+
+    public function actionPdf2($id)
+    {
+
+        $model = ($id == 'example') ?$this->findModel(0) : $this->findModel($id);
+
+        $intmdl = MainIntercom::find()
+            ->where(['staff_id' => $model->brmn_stid])
+            ->one();
+        $thaibathtext = AdzpireComponent::thaibath($model->brmn_borrow);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+            'content' => $this->renderPartial('print2', [
+                'model' => $model,
+                'intmdl' => $intmdl,
+                'thaibathtext' => $thaibathtext,
+            ]),
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'options' => [
+                'title' => 'แบบฟอร์มขออนุมัติยืมเงินหมุนเวียนคณะวิทยาการสื่อสาร',
+                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+            ],
+            'cssInline' => '
+                body {
+                    line-height: 22px;
+                    font-family: "sarabun";
+                }
+                .pagebreak { page-break-before: always; }
+                .tbhead {
+                    border-top-style: none;
+                    border-right-style: none;
+                    border-bottom-style: none;
+                    border-left-style: none;
+                }
+                .tbhead {
+                    border-top-style: none;
+                    border-right-style: none;
+                    border-bottom-style: none;
+                    border-left-style: none;
+                }
+                .tbcontent {
+                    border: thin solid #000;
+                    vertical-align: top;
+                    padding-left: 5px;
+                }
+                a {
+                    display: inline-block;
+                    color: #000;
+                    line-height: 18px;
+                    text-decoration: none;
+                    border-bottom: 1px dotted;
+                }
+                .style6{
+                  font-size: 30px;
+                }
+                .style5{
+                  font-size: 25px;
+                }
+                .style4{
                   font-size: 20px;
+                  font-weight: 900;
                 }
                 .fixpos {
                     position: absolute;

@@ -12,6 +12,8 @@ use backend\modules\person\models\Person;
 
 use backend\modules\intercom\models\MainIntercom;
 
+use backend\components\AdzpireComponent;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -46,10 +48,10 @@ class UnplanbudgetController extends Controller
 
 	 public $checkperson;
     public $moduletitle;
-    public function beforeAction(){
+    public function beforeAction($action){
        //$this->checkperson = Person::findOne([Yii::$app->user->id]);
        $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-       return true;
+        return parent::beforeAction($action);
     }
 	 
     /**
@@ -105,20 +107,10 @@ class UnplanbudgetController extends Controller
 		
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-				]);
+                AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
 			    return $this->redirect(['update', 'id' => $model->id]);
 			}else{
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-				]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
 			}
             print_r($model->getErrors());exit;
         }
@@ -143,26 +135,16 @@ class UnplanbudgetController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ {modelClass}: ', [
+		 Yii::$app->view->title = Yii::t('app', 'ปรับปรุงรายการ '.$model::fn()['name'].': ', [
     'modelClass' => 'Form Auto Unplnbdgt',
 ]) . $model->id.' - '.$this->moduletitle;
 		 
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
-				]);
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
 			return $this->redirect(['update', 'id' => $model->id]);
 			}else{
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
-				]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
 			}
             print_r($model->getErrors());exit;
         }
@@ -196,14 +178,8 @@ class UnplanbudgetController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-		
-		Yii::$app->getSession()->setFlash('edtflsh', [
-			'type' => 'success',
-			'duration' => 4000,
-			'icon' => 'glyphicon glyphicon-ok-circle',
-			'message' => Yii::t('app', 'ลบรายการเรียบร้อย'),
-		]);
-		
+
+        AdzpireComponent::succalert('edtflsh', 'ลบรายการเรียบร้อย');
 
         return $this->redirect(['index']);
     }
@@ -318,7 +294,7 @@ class UnplanbudgetController extends Controller
         }
         $sumdetails = FormAutoUnplnbdgtdetail::find()->where(['unpbdgtdet_unpbid' => $model->id])->sum('unpbdgtdet_price');
         $sumdetails = ($model->unpbdgt_tax == 1) ? $sumdetails*1.07 : $sumdetails;
-        $thaibathtext = str_replace('​', '', \Yii::$app->formatter->asSpellout($sumdetails));
+        $thaibathtext = AdzpireComponent::thaibath($sumdetails);
 //        return $this->renderPartial('print', [
 //            'model' => $model,
 //            'intmdl' => $intmdl,
