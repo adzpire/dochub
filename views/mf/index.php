@@ -3,7 +3,7 @@
 use yii\bootstrap\Html;
 //use kartik\widgets\DatePicker;
 
-use kartik\grid\GridView;
+use kartik\dynagrid\DynaGrid;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\modules\dochub\models\FormMf2016Search */
@@ -20,95 +20,83 @@ $this->registerCss('
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-<?php Pjax::begin(); ?>    <?= GridView::widget([
-		//'id' => 'kv-grid-demo',
-		'dataProvider'=> $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
+<?= DynaGrid::widget([
+    'columns' => [
+		//['class' => 'yii\grid\SerialColumn'],
 
-            'fid',
-            'mf_stid',
-            'mf_ill:ntext',
-            'mf_hospital',
-            'mf_want',
-            // 'mf_choice',
-            // 'mf_date',
-				[
-					'class' => 'yii\grid\ActionColumn',
-					'buttons' => [
-                        'view' => function ($url, $model, $key) {
-                                return Html::a(Html::icon('eye-open'), $url, ['class' => 'text-success', 'data-pjax' => 0, 'title'=>'แก้ไข']);
-                        },
-                        'delete' => function ($url, $model, $key) {
-                                return Html::a(Html::icon('trash'), $url, ['class' => 'text-danger', 'data-pjax' => 0]);
-                        },
-                    ],
-                    'headerOptions' => [
-                        'width' => '70px',
-                    ],
-					/*'visibleButtons' => [
-						'view' => Yii::$app->user->id == 122,
-						'update' => Yii::$app->user->id == 19,
-						'delete' => function ($model, $key, $index) {
-										return $model->status === 1 ? false : true;
-									}
-						],
-					'visible' => Yii::$app->user->id == 19,*/
-				],
-        ],
-		'pager' => [
-			'firstPageLabel' => 'รายการแรกสุด',
-			'lastPageLabel' => 'รายการท้ายสุด',
-		],
-		'responsive'=>true,
-		'hover'=>true,
-		'toolbar'=> [
-			['content'=>
-				Html::a(Html::icon('plus'), ['สร้างใหม่'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
-				Html::a(Html::icon('export').' บันทึกเป็น excel', '#', ['data-format' => 'application/vnd.ms-excel', 'data-pjax'=>0, 'class'=>'btn btn-success export-xls', 'title'=>Yii::t('app', 'บันทึกเป็น excel')]).' '.
-				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'รีเฟรชตาราง')])
-			],
-			//'{export}',
-			'{toggleData}',
-		],
-		'panel'=>[
-			'type'=>GridView::TYPE_INFO,
-			'heading'=> Html::icon('user').' '.Html::encode($this->title),
-		],
-    ]); ?>
-<?php 	 /* adzpire grid tips
 		[
-				'attribute' => 'id',
+			'attribute' => 'fid',
+			'headerOptions' => [
+				'width' => '50px',
+			],
+		],
+//            'mf_stid',
+		'mf_ill:ntext',
+		'mf_hospital',
+		'mf_want',
+		// 'mf_choice',
+		 'mf_date',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{update} {pdf}',
+				'buttons' => [
+					'update' => function ($url, $model, $key) {
+						return Html::a(' '.Html::icon('pencil').' ', $url, ['data-toggle'=>'tooltip', 'title'=>'แก้ไข']);
+					},
+					'pdf' => function ($url, $model, $key) {
+						return Html::a(' '.Html::icon('print').' ', $url, ['data-toggle'=>'tooltip', 'data-pjax'=>0, 'title'=>'พิมพ์', 'target'=>'_blank']);
+					},
+				],
+//					'buttons' => [
+//                        'view' => function ($url, $model, $key) {
+//                                return Html::a(Html::icon('eye-open'), $url, ['class' => 'text-success', 'data-pjax' => 0, 'title'=>'แก้ไข']);
+//                        },
+//                        'delete' => function ($url, $model, $key) {
+//                                return Html::a(Html::icon('trash'), $url, ['class' => 'text-danger', 'data-pjax' => 0]);
+//                        },
+//                    ],
 				'headerOptions' => [
-					'width' => '50px',
+					'width' => '70px',
 				],
+				'order'=>DynaGrid::ORDER_FIX_RIGHT,
 			],
-		[
-		'attribute' => 'we_date',
-		'value' => 'we_date',
-			'filter' => DatePicker::widget([
-					'model'=>$searchModel,
-					'attribute'=>'date',
-					'language' => 'th',
-					'options' => ['placeholder' => Yii::t('app', 'กรอกวันที่')],
-					'type' => DatePicker::TYPE_COMPONENT_APPEND,
-					'pickerButton' =>false,
-					//'size' => 'sm',
-					//'removeButton' =>false,
-					'pluginOptions' => [
-						'autoclose' => true,
-						'format' => 'yyyy-mm-dd'
-					]
-				]),
-			//'format' => 'html',			
-			'format' => ['date']
-
-		],	
-		[
-			'attribute' => 'we_creator',
-			'value' => 'weCr.userPro.nameconcatened'
+	],	
+    'theme'=>'panel-info',
+    'showPersonalize'=>true,
+	'storage' => 'session',
+	'toggleButtonGrid' => [
+		'label' => '<span class="glyphicon glyphicon-wrench">ปรับแต่งตาราง</span>'
+	],
+    'gridOptions'=>[
+        'dataProvider'=>$dataProvider,
+        'filterModel'=>$searchModel,
+        // 'showPageSummary'=>true,
+        // 'floatHeader'=>true,
+		'pjax'=>true,
+		'hover'=>true,
+		'pager' => [
+			'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
+			'lastPageLabel' => Yii::t('app', 'รายการท้ายสุด'),
 		],
-	 */
- ?> <?php Pjax::end(); ?>	
+		'resizableColumns'=>true,
+        'responsiveWrap'=>false,
+        'panel'=>[
+            'heading'=>'<h3 class="panel-title">'.Html::icon($searchModel::fn()['icon']).' '.Html::encode($this->title).'</h3>',
+            // 'before' =>  '<div style="padding-top: 7px;"><em>* The table header sticks to the top in this demo as you scroll</em></div>',
+            'after' => false
+        ],
+        'toolbar' =>  [
+            ['content'=>
+				Html::a(Html::icon('plus').'สร้างแบบฟอร์มใหม่', ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
+				Html::a(Html::icon('info-sign').'แสดงตัวอย่่าง', ['pdf?id=example'], ['data-pjax'=>0, 'class'=>'btn btn-danger', 'title'=>Yii::t('app', 'แสดงตัวอย่่าง'), 'target'=>'_blank']).' '.
+                Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['dynagrid-demo'], ['data-pjax'=>0, 'class' => 'btn btn-default', 'title'=>'Reset Grid'])
+            ],
+            ['content'=>'{dynagrid}'],
+            '{toggleData}',
+		],
+		
+    ],
+    'options'=>['id'=>'dynagrid-mf'] // a unique identifier is important
+]); ?>
+
 </div>

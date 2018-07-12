@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="panel-body">
 		 <?= $this->render('_form', [
 			  'model' => $model,
+             'staff' => $staff,
+             'choice' => $choice,
 		 ]) ?>
 		</div>
 	</div>

@@ -10,6 +10,11 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerCss('
+.grid-view td {
+    white-space: unset;
+}
+');
 ?>
 <div class="englishtest-data-index">
 
@@ -22,17 +27,48 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            'ID',
+            [
+                'attribute' => 'ID',
+                'headerOptions' => [
+                    'width' => '50px',
+                ],
+            ],
             'ed_title',
-            'ed_datechoice:ntext',
-            'ed_note:ntext',
+            'ed_round',
             'ed_active_till',
+            [
+                'attribute' => 'ed_limitseat',
+                'headerOptions' => [
+                    'width' => '70px',
+                ],
+            ],
+//            'ed_limitseat',
+            'ed_note:html',
             // 'created_at',
             // 'created_by',
-            // 'updated_at',
+//            'updated_at',
+            [
+                'attribute' => 'created_by',
+                'value' => 'createdBy.fullname'
+            ],
             // 'updated_by',
 				[
 					'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view} {update} {delete} {detail}',
+                    'buttons' => [
+                        'view' => function ($url, $model, $key) {
+                                return Html::a(Html::icon('eye-open'), $url, ['class' => 'text-success', 'data-pjax' => 0, 'title'=>'แก้ไข']);
+                        },
+                        'delete' => function ($url, $model, $key) {
+                                return Html::a(Html::icon('trash'), $url, ['class' => 'text-danger', 'data' => ['pjax' => 0, 'method' => 'post', 'confirm' => 'ต้องการลบข้อมูล?',]]);
+                        },
+                        'detail' => function ($url, $model, $key) {
+                            return Html::a(Html::icon('th-list'), $url, ['class' => 'text-warning', 'data-pjax' => 0, 'title'=>'รายการผู้สมัคร', 'target' => '_blank']);
+                        },
+                    ],
+                    'headerOptions' => [
+                        'width' => '90px',
+                    ],
 					/*'visibleButtons' => [
 						'view' => Yii::$app->user->id == 122,
 						'update' => Yii::$app->user->id == 19,
@@ -51,15 +87,16 @@ $this->params['breadcrumbs'][] = $this->title;
 		'hover'=>true,
 		'toolbar'=> [
 			['content'=>
-				Html::a(Html::icon('plus'), ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'Add Book')]).' '.
-				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'Reset Grid')])
+				Html::a(Html::icon('plus').' เพิ่มใหม่', ['create'], ['class'=>'btn btn-success', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
+				Html::a(Html::icon('th').' ไปหน้าสมัคร', ['eta/activelist'], ['class'=>'btn btn-primary', 'title'=>Yii::t('app', 'เพิ่ม')]).' '.
+				Html::a(Html::icon('repeat'), ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('app', 'รีเฟรช')])
 			],
 			//'{export}',
 			'{toggleData}',
 		],
 		'panel'=>[
 			'type'=>GridView::TYPE_INFO,
-			'heading'=> Html::icon('user').' '.Html::encode($this->title),
+			'heading'=> Html::icon('file').' '.Html::encode($this->title),
 		],
     ]); ?>
 <?php 	 /* adzpire grid tips

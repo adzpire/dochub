@@ -41,133 +41,11 @@ $this->registerJs($js);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <?php
-    $this->registerCss("
-		.wrap > .container {
-			 padding: 0px 15px 20px;
-		}
-		.cmmslogo{
-			align-content: left;
-			width: 45px;
-			padding: 3px;
-		}		
-		.navtablelogo{
-			float:right;
-		}
-		.navbar-brand {
-			 padding: 2px 15px;
-		}
-		.navbar-brand > img {
-			 display: inline;
-		}
-		.breadcrumb>li+li:before {
-            content:\"»\";
-        }
-        .nav {
-            margin-bottom: 5px;
-        }
-		/* PADDING VERTICAL */
-		.padding-v-xxs {
-		padding-top: 5px;
-		padding-bottom: 5px;
-		}
-		.padding-v-xs {
-		padding-top: 10px;
-		padding-bottom: 10px;
-		}
-		.padding-v-base {
-		padding-top: 15px;
-		padding-bottom: 15px;
-		}
-		.padding-v-md {
-		padding-top: 20px;
-		padding-bottom: 20px;
-		}
-		.padding-v-lg {
-		padding-top: 30px;
-		padding-bottom: 30px;
-		}
-		.line {
-		width: 100%;
-		height: 2px;
-		margin: 10px 0;
-		overflow: hidden;
-		font-size: 0;
-		}
-		.line-xs {
-		margin: 0;
-		}
-		.line-lg {
-		margin-top: 15px;
-		margin-bottom: 15px;
-		}
-		.line-dashed {
-		background-color: transparent;
-		border-bottom: 1px dashed #dee5e7 !important;
-		}
-		div.required label:after{
-			content: \" *\";
-			color: red;
-		}
-		.panbtn{
-			float:right;
-			margin: -5px 5px 0px 0px;
-		}
-		.media a{
-			color: black;
-			text-decoration: none;
-		}
-		.media:hover {
-          background-color: #f5f5f5;
-        }
-        .strike {
-		  display: block;
-		  text-align: center;
-		  overflow: hidden;
-		  white-space: nowrap;
-		}
-
-		.strike > span {
-		  position: relative;
-		  display: inline-block;
-		}
-
-		.strike > span:before,
-		.strike > span:after {
-		  content: \"\";
-		  position: absolute;
-		  top: 50%;
-		  width: 9999px;
-		  height: 1px;
-		  background: black;
-		}
-
-		.strike > span:before {
-		  right: 100%;
-		  margin-right: 15px;
-		}
-
-		.strike > span:after {
-		  left: 100%;
-		  margin-left: 15px;
-		}
-		.alert-custom {
-            color: #a15426;
-            background-color: #ffffff;
-            border: 1px solid #a15426;
-        }
-        .btn-link{
-            padding: 15px;
-        }
-        .nav-main-backend{
-		    display : none; 
-		}
-		.mywrap{
-		    margin-top: -50px;
-        }
-     ");
+    $this->registerCssFile("/uploads/adzpireImages/AdzpireCSS.css", [
+        'depends' => [\yii\bootstrap\BootstrapAsset::className()]]);
     ?>
 </head>
-<body>
+<body style="margin-top: 0px;">
 <?php $this->beginBody() ?>
 <?php $modul = \Yii::$app->controller->module;
 ?>
@@ -301,7 +179,7 @@ $this->registerLinkTag([
 
 <footer class="footer">
     <div class="container-fluid">
-         <p>© 2016 PSU YII DEV <span class="label label-danger"><?php echo $modul->params['ModuleVers']; ?></span>
+         <p>© 2016 - <?php echo date('Y'); ?> PSU YII DEV <span class="label label-danger"><?php echo $modul->params['ModuleVers']; ?></span>
             <?php echo '  '.Yii::t( 'app', 'พบปัญหาในการใช้งาน ติดต่อ - ').Html::icon('envelope'); ?> :  <?php echo Html::mailto('อับดุลอาซิส ดือราแม', 'abdul-aziz.d@psu.ac.th'); ?><?php echo ' '.Html::icon('earphone').' : '.Yii::t( 'app', 'โทรศัพท์ภายใน : 2618'); ?>
             <a href="#" data-toggle="tooltip" title="<?php echo Yii::t( 'app', 'responsive_web'); ?>"><img src="<?php echo '/uploads/adzpireImages/responsive-icon.png'; ?>" width="30" height="30" /></a>
         </p>

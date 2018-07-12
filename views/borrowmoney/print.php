@@ -60,7 +60,7 @@ use yii\helpers\Html;
                     } else if ($model->brmn_choice == '2') {
                         echo "ค่าวัสดุตามหนังสืออนุมัติ";
                     } else if ($model->brmn_choice == '3') {
-                        echo $model->brmn_other;
+                        echo $model->brmn_other.' วันที่ '. \Yii::$app->formatter->asDate($model->brmn_bdate, "long");
                     }
                     ?>
                 </u>

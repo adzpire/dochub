@@ -3,10 +3,10 @@
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 use yii\web\View;
+use kartik\widgets\DatePicker;
 /*
 use kartik\widgets\FileInput;
 use kartik\widgets\ActiveForm;
-use kartik\widgets\DatePicker;
 */
 /* @var $this yii\web\View */
 /* @var $model backend\modules\dochub\models\EnglishtestAttendee */
@@ -29,37 +29,8 @@ use kartik\widgets\DatePicker;
 			//	'enctype' => 'multipart/form-data'
 			]); ?>
 
-    <?= $form->field($model, 'ed_id')->textInput() ?>
-
-    <?= $form->field($model, 'person_id')->textInput() ?>
-
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'firstname_th')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'lastname_th')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'firstname_eng')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'lastname_eng')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'ea_date')->widget(DatePicker::classname(), [
-					'language' => 'th',
-					'options' => ['placeholder' => 'enterdate'],
-					'type' => DatePicker::TYPE_COMPONENT_APPEND,
-					'pluginOptions' => [
-						'autoclose'=>true,
-						'format' => 'yyyy-mm-dd'
-					]]) ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?>
-
+    <?php // $form->field($model, 'ea_date')->radioList($datelist)->label('เลือกวันที่ต้องการสอบ') ?>
+    <?php echo $form->field($model, 'comfirmcheck')->Checkbox()->label($model->ed->ed_confirm) ?>
 <?php 		/* adzpire form tips
 		$form->field($model, 'wu_tel', ['enableAjaxValidation' => true])->textInput(['maxlength' => true]);
 		//file field
@@ -80,7 +51,7 @@ use kartik\widgets\DatePicker;
 ]);
 		*/
  ?>     <div class="form-group text-center">
-        <?= Html::submitButton(Html::icon('floppy-disk').' '.'บันทึก', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(Html::icon('floppy-disk').' '.'ยืนยันการสอบ', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		<?php if(!$model->isNewRecord){
 		 echo Html::resetButton( Html::icon('refresh').' '.'เริ่มใหม่' , ['class' => 'btn btn-warning']); 
 		 } ?>

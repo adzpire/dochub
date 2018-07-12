@@ -5,6 +5,10 @@ namespace backend\modules\dochub\controllers;
 use Yii;
 use backend\modules\dochub\models\FormMf2016;
 use backend\modules\dochub\models\FormMf2016Search;
+
+use backend\modules\person\models\Person;
+use backend\modules\intercom\models\MainIntercom;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,6 +19,8 @@ use yii\web\Response;
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
+
+use kartik\mpdf\Pdf;
 
 /**
  * MfController implements the CRUD actions for FormMf2016 model.
@@ -42,7 +48,7 @@ class MfController extends Controller
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) {
                             $model = $this->findDataModel(Yii::$app->request->get('id'));
-                            if (!empty($model->attendee) OR !$model->remainseat[0]/**/) {
+                            if (!empty($model->attendee) OR !$model->remainseat[0]) {
                                 return false;
                             } else {
                                 return true;
@@ -87,9 +93,9 @@ class MfController extends Controller
     public function actionIndex()
     {
 		 
-		 Yii::$app->view->title = 'รายการ - '. $this->moduletitle;
+		 Yii::$app->view->title = 'รายการ '.FormMf2016::fn()['name'].' - '. $this->moduletitle;
 		 
-        $searchModel = new FormMf2016Search();
+        $searchModel = new FormMf2016Search(['mf_stid' => Yii::$app->user->id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -134,7 +140,7 @@ class MfController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
 				AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
-				return $this->redirect(['view', 'id' => $model->fid]);	
+				return $this->redirect(['update', 'id' => $model->fid]);
 			}else{
 				AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
 			}
@@ -143,6 +149,8 @@ class MfController extends Controller
 
             return $this->render('create', [
                 'model' => $model,
+                'staff' => Person::getPersonList(),
+                'choice' => $model->choice,
             ]);
         
 
@@ -158,12 +166,14 @@ class MfController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = 'ปรับปรุงรายการ Form Mf2016: ' . $model->fid.' - '. $this->moduletitle;
-		 
+		 Yii::$app->view->title = 'ปรับปรุงรายการ '.$model::fn()['name'].': ' . $model->fid.' - '. $this->moduletitle;
+
+        $intmdl = MainIntercom::find()->where(['staff_id' => $model->mf_stid])->one();
+
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
 				AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
-			return $this->redirect(['view', 'id' => $model->fid]);	
+			return $this->redirect(['update', 'id' => $model->fid]);
 			}else{
 				AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
 			}
@@ -172,6 +182,9 @@ class MfController extends Controller
 
             return $this->render('update', [
                 'model' => $model,
+                'staff' => Person::getPersonList(),
+                'choice' => $model->choice,
+                'intmdl' => $intmdl,
             ]);
         
 
@@ -206,5 +219,88 @@ class MfController extends Controller
         } else {
             throw new NotFoundHttpException('ไม่พบหน้าที่ต้องการ.');
         }
+    }
+
+    public function actionPdf($id)
+    {
+
+        $model = ($id == 'example') ? $this->findModel(0) : $this->findModel($id);
+
+        $intmdl = MainIntercom::find()
+            ->where(['staff_id' => $model->mf_stid])
+            ->one();
+
+        $thaibathtext = AdzpireComponent::thaibath($model->mf_want);
+        $pdf = new Pdf([
+            //'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+            'content' => $this->renderPartial('print', [
+                'model' => $model,
+                'intmdl' => $intmdl,
+                'thaibathtext' => $thaibathtext,
+            ]),
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            //'defaultFont' => 'win-1252',
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'options' => [
+                'title' => 'ใบเบิกเงินสวัสดิการเกี่ยวกับการรักษาพยาบาลพนักงานมหาวิทยาลัย',
+                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+            ],
+            'cssInline' => '
+                body {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 23px;
+                    line-height: 22px;
+                    font-family: "sarabun";
+                }
+                .pagebreak { page-break-before: always; }
+                .tbhead {
+                    border-top-style: none;
+                    border-right-style: none;
+                    border-bottom-style: none;
+                    border-left-style: none;
+                }
+                .tbhead {
+                    border-top-style: none;
+                    border-right-style: none;
+                    border-bottom-style: none;
+                    border-left-style: none;
+                }
+                .tbcontent {
+                    border: thin solid #000;
+                    vertical-align: top;
+                    padding-left: 5px;
+                }
+                u {    
+                    border-bottom: 1px dotted #000;
+                    text-decoration: none;
+                }
+                .style6{
+                  font-size: 34px;
+                }
+                .style5{
+                  font-size: 29px;
+                }
+                .style4{
+                  font-size: 23px;
+                }
+                .fixpos {
+                    position: absolute;
+                    right: 300px;
+                }
+                @media print {
+                    .noprint {
+                        display: none;
+                    }
+                }
+            ',
+            'methods' => [
+                //'SetHeader' => ['Generated By: Krajee Pdf Component||Generated On: ' . date("r")],
+                //'SetFooter' => ['|Page {PAGENO}|'],
+            ]
+        ]);
+        return $pdf->render();
     }
 }

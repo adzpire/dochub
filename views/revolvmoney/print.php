@@ -19,13 +19,14 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                         <span class="style6">บันทึกข้อความ</span>
                     </td>
                     <td rowspan="2" style="vertical-align: top;">
-                        <table  width="250px" border="1" cellpadding="0" cellspacing="0" style="100%">
+                        <table width="250px" border="1" cellpadding="0" cellspacing="0" style="100%">
                             <tr>
                                 <td class="style4" style="padding: 10px 10px 0px 10px; vertical-align: top;">
                                     <p>1. เลขที่ใบยืมเงิน ......................................</p>
                                     <p>2. รายการส่งใช้</p>
                                     <p>&nbsp;&nbsp;<?= $uncheckbox; ?> เอกสารเบิกเลขที่ ........... ลว ........... </p>
-                                    <p>&nbsp;&nbsp;<?= $uncheckbox; ?> เงินสด ................... บาท ลว ........... </p>
+                                    <p>&nbsp;&nbsp;<?= $uncheckbox; ?> เงินสด ................... บาท ลว
+                                        ........... </p>
                                 </td>
                             </tr>
                         </table>
@@ -33,8 +34,10 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <p class="style4">ส่วนงาน&nbsp;&nbsp;&nbsp;&nbsp; คณะวิทยาการสื่อสาร &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>โทร</strong>. <?php echo $intmdl->number; ?></p>
-                        <p><strong>ที่</strong>&nbsp; 861/ - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่</strong> &nbsp;
+                        <p class="style4">ส่วนงาน&nbsp;&nbsp;&nbsp;&nbsp; คณะวิทยาการสื่อสาร &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>โทร</strong>. <?php echo $intmdl->number; ?>
+                        </p>
+                        <p><strong>ที่</strong>&nbsp; 861/ - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่</strong>
+                            &nbsp;
                             &nbsp; <?php echo \Yii::$app->formatter->asDate($model->ss->updated_at, "long"); ?></p>
                     </td>
                 </tr>
@@ -59,22 +62,28 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                     ?></u> &nbsp;&nbsp;&nbsp;ตำแหน่ง &nbsp;&nbsp;<u><?php echo $model->user->position->name_th; ?></u>&nbsp; &nbsp;&nbsp;&nbsp;มีความประสงค์ขอยืมเงินหมุนเวียน จำนวนเงิน
                     &nbsp;<u><?php echo number_format($model->amount, 2, '.', ','); ?></u>
                     &nbsp;&nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?> ) &nbsp; เพื่อสำรองค่าใช้จ่าย
+                    <u>
+                        <?php
+                        echo $model->reason;
+                        ?>
+                    </u>
             </span>
         </td>
     </tr>
     <tr>
         <td width="100%" valign="middle">
-            <span class='style4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติเงินยืม จำนวน  &nbsp;&nbsp;<u><?php echo number_format($model->amount, 2, '.', ','); ?></u>&nbsp;&nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?> ) ให้ด้วย จะเป็นพระคุณยิ่ง </span>
+            <span class='style4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติเงินยืม จำนวน  &nbsp;&nbsp;<u><?php echo number_format($model->amount, 2, '.', ','); ?></u>&nbsp;&nbsp;บาท&nbsp;(<?php echo $thaibathtext; ?>
+                ) ให้ด้วย จะเป็นพระคุณยิ่ง </span>
         </td>
     </tr>
     <!-- 1 -->
     <tr>
         <td width="100%" valign="top">
             <div align="center">
-                    <table border="0" cellpadding="3" cellspacing="0" width="100%" class="style4">
-                        <tr>
-                            <td width="24%">&nbsp;</td>
-                            <td width="53%" align="center">
+                <table border="0" cellpadding="3" cellspacing="0" width="100%" class="style4">
+                    <tr>
+                        <td width="24%">&nbsp;</td>
+                        <td width="53%" align="center">
                                 <span class='style4'><strong>(ลงชื่อ)</strong>......................................................<br>
                                     (
                                     <?php
@@ -82,10 +91,10 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                                     echo $model->user->title->name_th . ' ' . $model->user->getFullname('th');
                                     ?>)<br>
                     <strong>ตำแหน่ง</strong> <?php echo $model->user->position->name_th; ?><br>
-                            </td>
-                            <td width="23%" align="center">&nbsp;</td>
-                        </tr>
-                    </table>
+                        </td>
+                        <td width="23%" align="center">&nbsp;</td>
+                    </tr>
+                </table>
             </div>
         </td>
     </tr>
@@ -96,14 +105,16 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
             <div>
                 <table width="100%" cellpadding="0" cellspacing="0" style="border-top: 1px solid black;">
                     <tr>
-                        <td width="48%" valign="top" style="border-right: 1px solid black; padding: 10px; border-left: 1px solid black;">
+                        <td width="48%" valign="top"
+                            style="border-right: 1px solid black; padding: 10px; border-left: 1px solid black;">
                             <p>เรียน คณบดี</p>
                             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
 
                                         <div align="left">
-                                          <span class='style4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เพื่อโปรดพิจารณาอนุมัติเงินยืมจำนวนเงิน <u><?php echo number_format($model->amount, 2, '.', ','); ?></u>  บาท (<?php echo $thaibathtext; ?> )&nbsp;ซึ่ง ณ ขณะนี้มีเงิน<br/>คงเหลือในบัญชีทั้งสิ้น ...................... บาท
+                                          <span class='style4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เพื่อโปรดพิจารณาอนุมัติเงินยืมจำนวนเงิน <u><?php echo number_format($model->amount, 2, '.', ','); ?></u>  บาท (<?php echo $thaibathtext; ?>
+                                              )&nbsp;ซึ่ง ณ ขณะนี้มีเงิน<br/>คงเหลือในบัญชีทั้งสิ้น ...................... บาท
                                           <br>
                                           </span>
                                         </div>
@@ -163,27 +174,32 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
     </tr>
     <tr>
         <td style="border: 1px solid black;">
-        <table border="" cellpadding="1" cellspacing="1" style="width:100%">
-            <tr>
-                <td width="100%" valign="bottom" style=" padding-left: 10px;">
-                    <p>
-                        <u>
-                            <?php
+            <table border="" cellpadding="1" cellspacing="1" style="width:100%">
+                <tr>
+                    <td width="100%" valign="bottom" style=" padding-left: 10px;">
+                        <p>
+                            <u>
+                                <?php
                                 echo $model->reason;
-                            ?>
-                        </u>
-                    </p>
-                    <p>ตัวอักษร (..<u><?php echo $thaibathtext; ?></u>..) รวมเงิน (บาท)</p>
-                </td>
-                <td width="80px" valign="bottom" style="text-align:center; border-left: 1px solid black;border-bottom: 1px solid black;"><?php echo floor($model->amount); ?></td>
-                <td width="40px" valign="bottom" style="text-align:center; border-left: 1px solid black;border-bottom: 1px solid black;"><?php echo number_format($model->amount - floor($model->amount), 2) * 100 ?></td>
-            </tr>
-        </table>
+                                ?>
+                            </u>
+                        </p>
+                        <p>ตัวอักษร (..<u><?php echo $thaibathtext; ?></u>..) รวมเงิน (บาท)</p>
+                    </td>
+                    <td width="80px" valign="bottom"
+                        style="text-align:center; border-left: 1px solid black;border-bottom: 1px solid black;"><?php echo floor($model->amount); ?></td>
+                    <td width="40px" valign="bottom"
+                        style="text-align:center; border-left: 1px solid black;border-bottom: 1px solid black;"><?php echo number_format($model->amount - floor($model->amount), 2) * 100 ?></td>
+                </tr>
+            </table>
         <td>
     </tr>
     <tr>
-        <td height="24" colspan="3" class="style4" style="padding:10px; border: 1px solid black; vertical-align:top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ข้าพเจ้าสัญญาว่าจะปฏิบัติตามระเบียบของทางราชการทุกประการ และจะนำใบสำคัญคู่จ่ายที่ถูกต้อง
-            พร้อมทั้งเงินเหลือจ่าย (ถ้ามี) ส่งใช้ภายในกำหนดไว้ในระเบียบการเบิกจ่ายเงินจากคลัง คือ <strong>ภายใน ..7.. วัน</strong>
+        <td height="24" colspan="3" class="style4" style="padding:10px; border: 1px solid black; vertical-align:top">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ข้าพเจ้าสัญญาว่าจะปฏิบัติตามระเบียบของทางราชการทุกประการ
+            และจะนำใบสำคัญคู่จ่ายที่ถูกต้อง
+            พร้อมทั้งเงินเหลือจ่าย (ถ้ามี) ส่งใช้ภายในกำหนดไว้ในระเบียบการเบิกจ่ายเงินจากคลัง คือ <strong>ภายใน ..7..
+                วัน</strong>
             นับตั้งแต่วันที่ได้รับเงินยืมนี้ <strong>ถ้าข้าพเจ้าไม่ส่งตามกำหนด ข้าพเจ้ายินยอมให้หัก เงินเดือน ค่าจ้าง
                 เบี้ยหวัด บำเหน็จ บำนาญ หรือเงินอื่นใดที่ข้าพเจ้าจะพึงได้รับจากทางราชการ การชดใช้จำนวนเงินที่ยืมไป
                 จนครบถ้วนได้ทันที </strong>
@@ -201,7 +217,8 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                 <tr align="center">
                     <td colspan="2" align="center">
                         <p><u>ใบรับเงิน</u></p>
-                        <p>ได้รับเงินยืมจำนวนเงิน ..<u><?php echo number_format($model->amount, 2, '.', ','); ?></u>.. บาท      (..<u><?php echo $thaibathtext; ?></u>..)     ไปเป็นการถูกต้องแล้ว</p>
+                        <p>ได้รับเงินยืมจำนวนเงิน ..<u><?php echo number_format($model->amount, 2, '.', ','); ?></u>..
+                            บาท (..<u><?php echo $thaibathtext; ?></u>..) ไปเป็นการถูกต้องแล้ว</p>
                     </td>
                 </tr>
                 <tr>

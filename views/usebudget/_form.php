@@ -77,9 +77,9 @@ use backend\components\ThaibudgetyearWidget;
         </div>
         <div class="col-md-11"> <?= $form->field($model, 'usebdgt_year', [
                 'horizontalCssClasses' => [
-                    'label' => 'col-md-3',
+                    'label' => 'col-md-4',
                     'wrapper' => 'col-md-3',
-                    'hint' => 'col-md-6',
+                    'hint' => 'col-md-5',
                 ],
             ])->label('ขออนุมัติใช้เงินประจําปีงบประมาณ')->widget(DatePicker::classname(), [
                 'language' => 'th',
@@ -148,8 +148,8 @@ use backend\components\ThaibudgetyearWidget;
     <div class="col-md-11 col-md-offset-1">
             <?= $form->field($model, 'usebdgt_reason', [
                 'horizontalCssClasses' => [
-                    'label' => 'col-md-3',
-                    'wrapper' => 'col-md-9',
+                    'label' => 'col-md-4',
+                    'wrapper' => 'col-md-8',
                 ],
             ])->textInput()->label('มีความประสงค์ ขอใช้เงินเพื่อเป็นค่าใช้จ่ายในการ ') ?>
     </div>

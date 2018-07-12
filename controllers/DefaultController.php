@@ -9,6 +9,8 @@ use backend\modules\person\models\Person;
 
 use backend\modules\intercom\models\MainIntercom;
 use yii\helpers\Url;
+use Da\QrCode\QrCode;
+use Da\QrCode\Label;
 /**
  * Default controller for the `dochub` module
  */
@@ -72,5 +74,50 @@ class DefaultController extends Controller
             'expire' => time() + (60*60*24*30),
         ]));
         $this->redirect(Url::previous());
+    }
+
+    public function actionCreateqr()
+    {
+        $imageUrl = Yii::getAlias('@frontend/web/media/parallax/img/qr_logo.png');
+        // if(is_file($imageUrl)){
+        //     echo 'Has File';
+        // }else{
+        //     echo 'No File';
+        // }
+        // Yii::$app->end();
+        Yii::$app->view->title = Yii::t('app', 'สร้าง QR code').' - '.$this->moduletitle;
+
+        $model = new \yii\base\DynamicModel([
+            'url', 'label', 'size', 'fontsize', 'fgcolor'
+            // 'email', 'address'
+        ]);
+        $model->addRule(['url', 'size', 'fontsize'], 'required')->addRule(['label', 'fgcolor'], 'string')
+            ->addRule(['url'], 'url')->addRule(['size', 'fontsize'], 'integer', ['min' => 0]);
+
+        if ($model->load(Yii::$app->request->post())) {
+                // echo $model->fgcolor;
+                $tmp = explode(", ", trim($model->fgcolor,"rgb()"));
+                // Yii::$app->end();
+                $label = (new Label($model->label))
+                //->useFont(__DIR__ . '/../resources/fonts/monsterrat.otf')
+                ->updateFontSize($model->fontsize);
+                // $label = '2amigos';
+                $qrCode = (new QrCode($model->url))->setLabel($label)
+                //->useLogo(realpath(__FILE__."/media/parallax/img/commsci_logo_black.png"))
+                ->useLogo($imageUrl)
+                ->setLogoWidth(30)
+				->setSize($model->size)->setMargin(5)->useForegroundColor($tmp[0], $tmp[1], $tmp[2]);
+                
+                header('Content-Type: '.$qrCode->getContentType());
+                echo $qrCode->writeString();
+                exit();
+        } else {
+            $model->size = 150;
+            $model->fontsize = 8;
+            $model->fgcolor = 'rgb(0, 0, 0)';
+            return $this->render('createqr', [
+                'model' => $model,
+            ]);
+        }
     }
 }

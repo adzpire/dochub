@@ -49,7 +49,7 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
 //                $this->brmn_other = NULL;
                 $this->brmn_title = NULL;
                 $this->brmn_place = NULL;
-                $this->brmn_bdate = NULL;
+//                $this->brmn_bdate = NULL;
                 $this->brmn_edate = NULL;
             }
 
@@ -135,7 +135,7 @@ class FormAutoBrmn extends \yii\db\ActiveRecord
             [['brmn_place'], 'string', 'max' => 255],
             [['brmn_stid'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['brmn_stid' => 'user_id']],
             [
-                ['brmn_other'], 'required', 'when' => function ($model) {
+                ['brmn_other', 'brmn_bdate'], 'required', 'when' => function ($model) {
                 return $model->brmn_choice == '3';
             },
                 'whenClient' => "function (attribute, value) { return $('#ptype').val() == '3'; }",

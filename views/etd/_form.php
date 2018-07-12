@@ -3,10 +3,12 @@
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 use yii\web\View;
+use kartik\widgets\DateTimePicker;
+use dosamigos\ckeditor\CKEditor;
+use yii\jui\AutoComplete;
 /*
 use kartik\widgets\FileInput;
 use kartik\widgets\ActiveForm;
-use kartik\widgets\DatePicker;
 */
 /* @var $this yii\web\View */
 /* @var $model backend\modules\dochub\models\EnglishtestData */
@@ -29,28 +31,79 @@ use kartik\widgets\DatePicker;
 			//	'enctype' => 'multipart/form-data'
 			]); ?>
 
-    <?= $form->field($model, 'ed_title')->textInput(['maxlength' => true]) ?>
+    <?php echo $form->field($model, 'ed_title')->textInput(['maxlength' => true])
+//    echo $form->field($model, 'ed_title')->widget(AutoComplete::classname(), [
+//        'options' => [
+//            'class' => 'form-control',
+//            'placeholder' => 'ถ้าหัวข้อเหมือนกันถือว่าเป็นรอบเดี่ยวกัน สมัครซ้ำไม่ได้ '
+//        ],
+//        'clientOptions' => [
+//            'source' => $titlearr,
+//            //'source' => ['USA':'USA', 'DR':'DR'],
+//        ],
+//    ]);
+    ?>
+    <?php //echo $form->field($model, 'ed_round')->dropdownList($round, ['prompt'=>'ไม่มี'])->label('ควบคุมรอบ')->hint('ไม่ต้องกรอกถ้าไม่ต้องการควบคุมรอบการลงทะเบียน')
+        echo $form->field($model, 'ed_round')->widget(AutoComplete::classname(), [
+            'options' => [
+                'class' => 'form-control',
+                'placeholder' => 'พิมพ์เพื่อค้นหา เช่น et1/60, et3/61 เป็นต้น ไม่ต้องกรอกถ้าไม่ต้องการควบคุม'
+            ],
+            'clientOptions' => [
+                'source' => $round,
+                //'source' => ['USA':'USA', 'DR':'DR'],
+            ],
+        ])->hint('ถ้าเหมือนกันถือว่าเป็นรอบเดี่ยวกัน สมัครซ้ำไม่ได้');
+     ?>
+    <?= $form->field($model, 'ed_active_till')->widget(DateTimePicker::classname(), [
+        'language' => 'th',
+        'options' => ['placeholder' => 'กรอกวันเวลา'],
+        'type' => DateTimePicker::TYPE_COMPONENT_APPEND,
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'format' => 'yyyy-m-d H:ii:ss',
+        ]]) ?>
 
-    <?= $form->field($model, 'ed_datechoice')->textarea(['rows' => 6]) ?>
+    <?php echo $form->field($model, 'ed_limitseat')->textInput(['placeholder' => '0 เท่ากับไม่จำกัด']) ?>
 
-    <?= $form->field($model, 'ed_note')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'ed_datechoice')->widget(AutoComplete::classname(), [
+        'options' => [
+            'class' => 'form-control',
+            'placeholder' => 'พิมพ์รหัสหรือชื่อสถานที่ เช่น A312, ห้องปฏิบัตการ '
+        ],
+        'clientOptions' => [
+            'source' => $locarr,
+            //'source' => ['USA':'USA', 'DR':'DR'],
+        ],
+    ]) ?>
 
-    <?= $form->field($model, 'ed_active_till')->widget(DatePicker::classname(), [
-					'language' => 'th',
-					'options' => ['placeholder' => 'enterdate'],
-					'type' => DatePicker::TYPE_COMPONENT_APPEND,
-					'pluginOptions' => [
-						'autoclose'=>true,
-						'format' => 'yyyy-mm-dd'
-					]]) ?>
+    <?php /*$form->field($model, 'ed_datechoice')->widget(DatePicker::classname(), [
+        'language' => 'th',
+        'options' => ['placeholder' => 'enterdate'],
+        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+        'pluginOptions' => [
+            'format' => 'yyyy-mm-dd',
+            'multidate' => true,
+            'multidateSeparator' => ',',
+        ]])*/ ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+    <?php //$form->field($model, 'ed_note')->textarea(['rows' => 6])
+    echo $form->field($model, 'ed_note')->widget(CKEditor::className(), [
+        'preset' => 'basic'
+        //'clientOptions' => KCFinder::registered()
+    ]);
+    ?>
+    <?php
+    echo $form->field($model, 'ed_confirm')->widget(CKEditor::className(), [
+        'preset' => 'basic'
+    ]);
+    ?>
 
-    <?= $form->field($model, 'created_by')->textInput() ?>
+    <?php // $form->field($model, 'created_by')->textInput() ?>
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <?php // $form->field($model, 'updated_at')->textInput() ?>
 
-    <?= $form->field($model, 'updated_by')->textInput() ?>
+    <?php // $form->field($model, 'updated_by')->textInput() ?>
 
 <?php 		/* adzpire form tips
 		$form->field($model, 'wu_tel', ['enableAjaxValidation' => true])->textInput(['maxlength' => true]);

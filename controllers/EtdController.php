@@ -5,10 +5,12 @@ namespace backend\modules\dochub\controllers;
 use Yii;
 use backend\modules\dochub\models\EnglishtestData;
 use backend\modules\dochub\models\EnglishtestDataSearch;
+use backend\modules\dochub\models\EnglishtestAttendeeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
+use backend\modules\location\models\MainLocation;
 use backend\components\AdzpireComponent;
 
 use yii\web\Response;
@@ -33,14 +35,30 @@ class EtdController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['update', 'delete'],
+                        'allow' => true,
+                        'matchCallback' => function ($rule, $action) {
+                            $model = $this->findModel(Yii::$app->request->get('id'));
+                            if ($model->created_by != Yii::$app->user->id) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    ],
+                ],
+            ],
         ];
     }
 
 	public $moduletitle;
     public function beforeAction($action){
-        foreach($this->admincontroller as $key){
-			$this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-        }
+			$this->moduletitle = 'ระบบฟอร์มลงทะเบียนผ่าน PSU Passport '.Yii::t('app', Yii::$app->controller->module->params['title']);
 
         return parent::beforeAction($action);
 		  /* 
@@ -65,6 +83,19 @@ class EtdController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionDetail($id)
+    {
+
+        $searchModel = new EnglishtestAttendeeSearch(['ed_id' => $id]);
+        Yii::$app->view->title = 'รายการลงชื่อกิจกรรม - '.$searchModel->ed->ed_title;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('detail', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -112,9 +143,11 @@ class EtdController extends Controller
 			}
             print_r($model->getErrors());exit();
         }
-
+        $model->ed_confirm = 'เช่น ยืนยันการลงชื่อ/อ่านข้อมูลตามลิ้งค์แนบนี้ <a href="/article/1">คลื้ก</a>';
             return $this->render('create', [
                 'model' => $model,
+                'locarr' => MainLocation::getAutoCompleteList(),
+                'round' => $model::getDistinctround(),
             ]);
         
 
@@ -144,6 +177,7 @@ class EtdController extends Controller
 
             return $this->render('update', [
                 'model' => $model,
+                'locarr' => MainLocation::getAutoCompleteList(),
             ]);
         
 

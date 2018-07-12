@@ -32,11 +32,18 @@ class Module extends \yii\base\Module
         }
 		*/
 		parent::init();
-
+        $this->checkldapsession();
 		$this->layout = 'dochub';
-		$this->params['ModuleVers'] = '2.1';
+		$this->params['ModuleVers'] = '2.2';
         $this->params['modulecookies'] = 'dochubck';
-		$this->params['title'] = 'ระบบสร้างแบบฟอร์มออนไลน์';
+        $this->params['title'] = 'ระบบสร้างแบบฟอร์มออนไลน์';
+        $this->params['lineprog'] = 'ระบบDocHub';
         // custom initialization code goes here
+    }
+
+    private function checkldapsession(){
+        if(!Yii::$app->user->isGuest && !Yii::$app->session->get('ldapData')){
+            Yii::$app->getUser()->logout();
+        }
     }
 }

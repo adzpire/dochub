@@ -180,6 +180,9 @@ public static function getFormAutoSessionList(){
         //--
         $farray[FormAutoBrrvmn::fn()['code']] = FormAutoBrrvmn::fn()['name'];
         $ficonarr[FormAutoBrrvmn::fn()['code']] = FormAutoBrrvmn::fn()['icon'];
+        //--
+        $farray[FormMf2016::fn()['code']] = FormMf2016::fn()['name'];
+        $ficonarr[FormMf2016::fn()['code']] = FormMf2016::fn()['icon'];
         if($sel == 1){return $farray;}
         elseif ($sel == 2){return $ficonarr;}
     }

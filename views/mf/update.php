@@ -14,18 +14,14 @@ $this->params['breadcrumbs'][] = 'อัพเดต';
 <div class="panel panel-warning">
 	<div class="panel-heading">
 		<span class="panel-title"><?= Html::icon('edit').' '.Html::encode($this->title) ?></span>
-		<?= Html::a( Html::icon('fire').' '.'ลบ', ['delete', 'id' => $model->fid], [
-            'class' => 'btn btn-danger panbtn',
-            'data' => [
-                'confirm' => 'ต้องการลบข้อมูล?',
-                'method' => 'post',
-            ],
-        ]) ?>
 		<?= Html::a( Html::icon('pencil').' '.'สร้างใหม่', ['create'], ['class' => 'btn btn-info panbtn']) ?>
 	</div>
 	<div class="panel-body">
 	<?= $this->render('_form', [
-	  'model' => $model,
+        'model' => $model,
+        'staff' => $staff,
+        'choice' => $choice,
+        'intmdl' => $intmdl,
 	]) ?>
 	</div>
 </div>

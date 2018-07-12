@@ -26,6 +26,8 @@ $this->params['breadcrumbs'][] = 'อัพเดต';
 	<div class="panel-body">
 	<?= $this->render('_form', [
 	  'model' => $model,
+	  'locarr' => $locarr,
+	  'titlearr' => $titlearr,
 	]) ?>
 	</div>
 </div>

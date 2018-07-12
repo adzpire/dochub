@@ -65,7 +65,7 @@ class RevolvmoneyController extends Controller
 
         Yii::$app->view->title = ' รายการ '.FormAutoBrrvmn::fn()['name']. ' - ' . $this->moduletitle;
 		 
-        $searchModel = new FormAutoBrrvmnSearch();
+        $searchModel = new FormAutoBrrvmnSearch(['user_id' => Yii::$app->user->id]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

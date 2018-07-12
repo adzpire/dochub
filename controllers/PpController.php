@@ -5,9 +5,9 @@ namespace backend\modules\dochub\controllers;
 use Yii;
 use backend\modules\dochub\models\FormAutoPp;
 use backend\modules\dochub\models\FormAutoPpSearch;
-
+use frontend\modules\linenotify\models\Linetoken;
 use backend\modules\intercom\models\MainIntercom;
-
+use backend\components\AdzpireComponent;
 use backend\modules\mainjob\models\MainJob;
 
 use backend\modules\person\models\Person;
@@ -22,6 +22,7 @@ use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
 
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 use kartik\mpdf\Pdf;
 /**
@@ -44,12 +45,15 @@ class PpController extends Controller
         ];
     }
 
-	 public $checkperson;
+    public $adminArr = [];
     public $moduletitle;
+    public $lineprog;
     public function beforeAction(){
-       //$this->checkperson = Person::findOne([Yii::$app->user->id]);
-       $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
-       return true;
+        // admin can see all ex. 19 = abdul-aziz.d
+        $this->adminArr = [19];
+        $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
+        $this->lineprog = Yii::$app->controller->module->params['lineprog'];
+        return true;
     }
 	 
     /**
@@ -61,7 +65,9 @@ class PpController extends Controller
 		 
 		 Yii::$app->view->title = ' รายการ '.FormAutoPp::fn()['name'].' - '.$this->moduletitle;
 		 
-        $searchModel = new FormAutoPpSearch(['pp_stid' => Yii::$app->user->id]);
+        $searchModel = new FormAutoPpSearch([
+            'pp_stid' => (in_array(Yii::$app->user->id, $this->adminArr)) ? NULL : Yii::$app->user->id
+        ]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -105,20 +111,14 @@ class PpController extends Controller
 		
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการใหม่เรียบร้อย'),
-				]);
+                // $mdllt = Linetoken::getToken($this->lineprog);
+                // if(!empty($mdllt)){
+                    AdzpireComponent::linenotify(3, "\n** ------ มีขอ PSU PP ------ **\n อ่านเพิ่มเติม: http://www.comm-sci.pn.psu.ac.th/".Url::to(['view', 'id'=> $model->pp_id]), 19);
+                // }
+                AdzpireComponent::succalert('addflsh', 'เพิ่มรายการใหม่เรียบร้อย');
 			return $this->redirect(['view', 'id' => $model->pp_id]);	
 			}else{
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'เพิ่มรายการไม่ได้'),
-				]);
+				AdzpireComponent::dangalert('addflsh', 'เพิ่มรายการไม่ได้');
 			}
             print_r($model->getErrors());exit;
         }
@@ -150,20 +150,10 @@ class PpController extends Controller
 		 
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการเรียบร้อย'),
-				]);
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงรายการเรียบร้อย');
 			return $this->redirect(['view', 'id' => $model->pp_id]);	
 			}else{
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('app', 'ปรับปรุงรายการไม่ได้'),
-				]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงรายการไม่ได้');
 			}
             return $this->redirect(['view', 'id' => $model->pp_id]);
         }
@@ -190,13 +180,7 @@ class PpController extends Controller
     {
         $this->findModel($id)->delete();
 		
-		Yii::$app->getSession()->setFlash('edtflsh', [
-			'type' => 'success',
-			'duration' => 4000,
-			'icon' => 'glyphicon glyphicon-ok-circle',
-			'message' => Yii::t('app', 'ลบรายการเรียบร้อย'),
-		]);
-		
+		AdzpireComponent::succalert('delflsh', 'ลบรายการเรียบร้อย');		
 
         return $this->redirect(['index']);
     }

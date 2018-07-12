@@ -30,6 +30,8 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
                 </p>
             </td>
         </tr>
+    </table>
+    <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
         <tr>
             <td class="tbcontent">
                 1. ข้าพเจ้า .....<u><?php echo $model->mfgSt->getFullname('th'); ?></u>
@@ -163,7 +165,7 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
 <pagebreak />
 <div align="center">
     <p align="center">- 2 -</p>
-    <table align="center" width="650" border="0" style="background-color:#fff;">
+    <table align="center" width="650" border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
         <tr>
             <td class="tbcontent">
                 <p>4. เสนอ  ...<u>คณบดี</u>...</p>

@@ -180,7 +180,7 @@ use yii\helpers\Url;
         </div>
         <div class="col-md-11 col-md-offset-1">
             <?php
-            if ($model->isNewRecord) {
+            if ($model->isNewRecord OR empty($model->brmn_bdate)) {
                 $model->brmn_bdate = date('Y-m-d');
                 $model->brmn_edate = $model->brmn_bdate;
             }
@@ -212,14 +212,36 @@ use yii\helpers\Url;
         </div>
 
     </div>
-    <?= $form->field($model, 'brmn_other', [
-        'validateOnChange' => true,
-        'enableAjaxValidation' => true,
-        'options'=>[
-            'style'=> ($model->isNewRecord OR $model->brmn_choice != 3 ) ? ' display: none; ' : false ,
-        ]
-    ])->textarea(['rows' => 3]) ?>
-
+    <div id="c2" <?php echo ($model->isNewRecord OR $model->brmn_choice != 3) ? ' style="display: none;" ' : false ;
+    ?> >
+        <?= $form->field($model, 'brmn_other', [
+            'validateOnChange' => true,
+            'enableAjaxValidation' => true,
+//            'options'=>[
+//                'style'=> ($model->isNewRecord OR $model->brmn_choice != 3 ) ? ' display: none; ' : false ,
+//            ],
+            'horizontalCssClasses' => [
+                'label' => 'col-md-3',
+                'wrapper' => 'col-md-4',
+            ]
+        ])->textarea(['rows' => 3]) ?>
+        <?= $form->field($model, 'brmn_bdate',[
+            'validateOnChange' => true,
+            'enableAjaxValidation' => true,
+            'horizontalCssClasses' => [
+                'label' => 'col-md-3',
+                'wrapper' => 'col-md-3',
+            ]
+        ])->widget(DatePicker::classname(), [
+            'language' => 'th',
+            'options' => ['placeholder' => 'enterdate'],
+            'type' => DatePicker::TYPE_COMPONENT_APPEND,
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+            ]])->label('วันที่จัด/เข้าร่วม') ?>
+    </div>
     <div class="col-md-12 form-group text-center">
         <?= Html::submitButton( Html::icon('floppy-disk').' '.Yii::t('app', 'บันทึก'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		<?php /*if(!$model->isNewRecord){ echo Html::resetButton( Html::icon('refresh').' '.Yii::t('app', 'Reset') , ['class' => 'btn btn-warning']);} */
@@ -240,17 +262,19 @@ $this->registerJs("
         if($(this).attr('value')== 1) {
             //alert('1');
 			$('#c1').show().find( 'input' ).prop('disabled', false);
-			$('.field-formautobrmn-brmn_other').hide().prop('disabled', true);
+			$('#c2').hide().find( 'input' ).prop('disabled', true);
+//			$('.field-formautobrmn-brmn_other').hide().prop('disabled', true);
         }
         if($(this).attr('value')== 3) {
-            //alert('2');
 			$('#c1').hide().find( 'input' ).prop('disabled', true);
-			$('.field-formautobrmn-brmn_other').show().find( 'input' ).prop('disabled', false);
+			$('#c2').show().find( 'input' ).prop('disabled', false);
+//			$('.field-formautobrmn-brmn_other').show().find( 'input' ).prop('disabled', false);
           /* $('.field-borrowreturn-confirm_comment').hide().find( 'input' ).val('').prop('disabled', true); */
         }
         if($(this).attr('value')== 2) {
             $('#c1').hide().find( 'input' ).prop('disabled', true);
-			$('.field-formautobrmn-brmn_other').hide().prop('disabled', true);
+            $('#c2').show().hide( 'input' ).prop('disabled', true);
+//			$('.field-formautobrmn-brmn_other').hide().prop('disabled', true);
 			/* $('.field-borrowreturn-confirm_comment').hide().find( 'input' ).val('').prop('disabled', true); */
         }
     });

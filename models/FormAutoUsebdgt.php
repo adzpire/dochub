@@ -84,7 +84,7 @@ class FormAutoUsebdgt extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['usebdgt_stid', 'usebdgt_date', 'usebdgt_year', 'usebdgt_reason', 'usebdgt_bookno', 'usebdgt_bookdate', 'usebdgt_headcmitt'], 'required'],
+            [['usebdgt_stid', 'usebdgt_date', 'usebdgt_year', 'usebdgt_reason', 'usebdgt_headcmitt'], 'required'],
             [['usebdgt_stid', 'usebdgt_bookno', 'usebdgt_headcmitt', 'usebdgt_frstcmitt', 'usebdgt_scndcmitt'], 'integer'],
             [['usebdgt_date', 'usebdgt_year', 'usebdgt_bookdate'], 'safe'],
             [['usebdgt_reason'], 'string'],

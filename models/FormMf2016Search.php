@@ -15,31 +15,31 @@ class FormMf2016Search extends FormMf2016
     /**
      * @inheritdoc
      */
-	  
-	 /* adzpire gridview relation sort-filter
-		public $weu;
-		public $wecr;
-	 
-		add rule
-		[['weu', 'wecr'], 'safe'],
 
-		in function search()  //weU = wasterecycle_user userPro = user_profile
-		$query->joinWith(['weU', 'weCr.userPro']); // weCr.userPro - 2layer relation
-		$dataProvider->sort->attributes['weu'] = [
-			'asc' => ['wasterecycle_user.wu_name' => SORT_ASC],
-			'desc' => ['wasterecycle_user.wu_name' => SORT_DESC],
-		];
-		$dataProvider->sort->attributes['wecr'] = [
-			'asc' => ['user_profile.firstname' => SORT_ASC],
-			'desc' => ['user_profile.firstname' => SORT_DESC],
-		];
-		//add grid filter condition ->orFilterWhere for search wu_name or wu_lastname
-		->andFilterWhere(['like', 'wasterecycle_user.wu_name', $this->weu])
-		->orFilterWhere(['like', 'wasterecycle_user.wu_lastname', $this->weu])
-		->andFilterWhere(['like', 'user_profile.firstname', $this->wecr])
-		->orFilterWhere(['like', 'user_profile.lastname', $this->wecr]);
-        
-	 */
+    /* adzpire gridview relation sort-filter
+       public $weu;
+       public $wecr;
+
+       add rule
+       [['weu', 'wecr'], 'safe'],
+
+       in function search()  //weU = wasterecycle_user userPro = user_profile
+       $query->joinWith(['weU', 'weCr.userPro']); // weCr.userPro - 2layer relation
+       $dataProvider->sort->attributes['weu'] = [
+           'asc' => ['wasterecycle_user.wu_name' => SORT_ASC],
+           'desc' => ['wasterecycle_user.wu_name' => SORT_DESC],
+       ];
+       $dataProvider->sort->attributes['wecr'] = [
+           'asc' => ['user_profile.firstname' => SORT_ASC],
+           'desc' => ['user_profile.firstname' => SORT_DESC],
+       ];
+       //add grid filter condition ->orFilterWhere for search wu_name or wu_lastname
+       ->andFilterWhere(['like', 'wasterecycle_user.wu_name', $this->weu])
+       ->orFilterWhere(['like', 'wasterecycle_user.wu_lastname', $this->weu])
+       ->andFilterWhere(['like', 'user_profile.firstname', $this->wecr])
+       ->orFilterWhere(['like', 'user_profile.lastname', $this->wecr]);
+
+    */
     public function rules()
     {
         return [
@@ -72,7 +72,7 @@ class FormMf2016Search extends FormMf2016
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-			/*'pagination' => false,
+            /*'pagination' => false,
             'sort' => false,*/
         ]);
 

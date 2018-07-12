@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 
 use backend\components\Monav;
 
-use kartik\grid\GridView;
+use kartik\dynagrid\DynaGrid;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\modules\dochub\models\FormAutoSessionSearch */
@@ -28,7 +28,7 @@ use yii\widgets\Pjax;
                             'url' => ['/dochub/'.'borrowmoney'],
                         ],
                         [
-                            'label' => Html::icon($searchModel::farr(2)['revolvmoney']).' '.$searchModel::farr()['revolvmoney']. Html::tag('span', 'new', ['class' => 'badge pull-right']),
+                            'label' => Html::icon($searchModel::farr(2)['revolvmoney']).' '.$searchModel::farr()['revolvmoney'],
                             'url' => ['/dochub/'.'revolvmoney'],
                         ],
                         [
@@ -48,10 +48,10 @@ use yii\widgets\Pjax;
                             'label' => Html::icon($searchModel::farr(2)['childedu']).' '.$searchModel::farr()['childedu'],
                             'url' => ['/dochub/'.'childedu'],
                         ],
-//                        [
-//                            'label' => Html::icon($searchModel::farr(2)['medicfee']).' '.$searchModel::farr()['medicfee'],
-//                            'url' => ['/dochub/'.'medicfee'],
-//                        ],
+                        [
+                            'label' => Html::icon($searchModel::farr(2)['mf']).' '.$searchModel::farr()['mf'],
+                            'url' => ['/dochub/'.'mf'],
+                        ],
                         [
                             'label' => Html::icon($searchModel::farr(2)['childedugov']).' '.$searchModel::farr()['childedugov'],
                             'url' => ['/dochub/'.'childedugov'],
@@ -102,37 +102,16 @@ use yii\widgets\Pjax;
             </div>
             <div class="table">
                 <?php
-//                echo Monav::widget([
-//                    'encodeLabels' => false,
-//                    'items' => [
-//                        [
-//                            'label' => Html::icon('copy').' แบบฟอร์มขอเปิดรายวิชาเพิ่มเติม',
-//                            'url' => ['default/create'],
-//                        ],
-//                        [
-//                            'label' => Html::icon('copy').' แบบฟอร์มขอปิดรายวิชา',
-//                            'url' => ['default/uncomplete'],
-//                            //'count' => 'backend\modules\tc\models\DefaultUncompleteSearch',
-//                        ],
-//                        [
-//                            'label' => Html::icon('copy').' แบบฟอร์มขอเปิดกลุ่มวิชาเพิ่มเติม',
-//                            'url' => ['default/index'],
-//                        ],
-//                        [
-//                            'label' => Html::icon('copy').' แบบฟอร์มขอเปลี่ยนแปลงอาจารย์ผู้สอน',
-//                            'url' => ['default/index'],
-//                        ],
-//                        [
-//                            'label' => Html::icon('copy').' แบบฟอร์มขอเปลี่ยนแปลงวัน-เวลา และ/หรือสถานที่เรียน',
-//                            'url' => ['default/index'],
-//                        ],
-//                        [
-//                            'label' => Html::icon('copy').' แบบฟอร์มขอเปลี่ยนแปลงลักษณะวิชา/เงื่อนไขและอื่น ๆ',
-//                            'url' => ['default/index'],
-//                        ],
-//                    ],
-//                    'options' => ['class' => 'nav-stacked'], // set this to nav-tab to get tab-styled navigation
-//                ]); ?>
+                /*echo Monav::widget([
+                    'encodeLabels' => false,
+                    'items' => [
+                        [
+                            'label' => Html::icon('ok-circle').' ฟอร์มสมัคร/ลงทะเบียนกิจกรรมด้วย PSU Passport',
+                            'url' => ['/dochub/'.'etd'],
+                        ],
+                    ],
+                    'options' => ['class' => 'nav-stacked'], // set this to nav-tab to get tab-styled navigation
+                ]);*/ ?>
             </div>
         </div>
         <div class="panel panel-info">
@@ -148,6 +127,10 @@ use yii\widgets\Pjax;
                             'label' => Html::icon($searchModel::farr(2)['pp']).' '.$searchModel::farr()['pp'],
                             'url' => ['/dochub/'.'pp'],
                         ],
+                        [
+                            'label' => Html::icon('qrcode').' สร้าง QR code'. Html::tag('span', 'new', ['class' => 'badge pull-right']),
+                            'url' => ['/dochub/'.'default/createqr'],
+                        ],
                     ],
                     'options' => ['class' => 'nav-stacked'], // set this to nav-tab to get tab-styled navigation
                 ]); ?>
@@ -157,11 +140,7 @@ use yii\widgets\Pjax;
     </div>
 
     <div class="col-md-7">
-        <?php Pjax::begin(); ?>
-        <?= GridView::widget([
-            //'id' => 'kv-grid-demo',
-            'dataProvider'=> $dataProvider,
-            'filterModel' => $searchModel,
+        <?= DynaGrid::widget([
             'columns' => [
                 //['class' => 'yii\grid\SerialColumn'],
 
@@ -204,54 +183,41 @@ use yii\widgets\Pjax;
                         'class' => 'text-center',
                     ],
                 'header' => 'พิมพ์',
+                'order'=>DynaGrid::ORDER_FIX_RIGHT,
                 ],
+            ],	
+            'theme'=>'panel-warning',
+            'showPersonalize'=>true,
+            'storage' => 'session',
+            'toggleButtonGrid' => [
+                'label' => '<span class="glyphicon glyphicon-wrench">ปรับแต่งตาราง</span>'
             ],
-            'pager' => [
-                'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
-                'lastPageLabel' => Yii::t('app', 'รายการท้ายสุด'),
+            'gridOptions'=>[
+                'dataProvider'=>$dataProvider,
+                'filterModel'=>$searchModel,
+                // 'showPageSummary'=>true,
+                // 'floatHeader'=>true,
+                'pjax'=>true,
+                'hover'=>true,
+                'pager' => [
+                    'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
+                    'lastPageLabel' => Yii::t('app', 'รายการท้ายสุด'),
+                ],
+                'resizableColumns'=>true,
+                'responsiveWrap'=>false,
+                'panel'=>[
+                    'heading'=>'<h3 class="panel-title">'.Html::icon('th-list').' รายการฟอร์มล่าสุด</h3>',
+                    // 'before' =>  '<div style="padding-top: 7px;"><em>* The table header sticks to the top in this demo as you scroll</em></div>',
+                    'after' => false
+                ],
+                'toolbar' =>  [
+                    ['content'=>'{dynagrid}'],
+                ],
+                
             ],
-            'responsive'=>true,
-            'hover'=>true,
-            'toolbar'=> false,
-            'panel'=>[
-                'type'=>GridView::TYPE_WARNING,
-                'heading'=> Html::icon('th-list').' รายการฟอร์มล่าสุด',
-            ],
+            'options'=>['id'=>'dynagrid-dfltdochub'] // a unique identifier is important
         ]); ?>
-        <?php 	 /* adzpire grid tips
-		[
-				'attribute' => 'id',
-				'headerOptions' => [
-					'width' => '50px',
-				],
-			],
-		[
-		'attribute' => 'we_date',
-		'value' => 'we_date',
-			'filter' => DatePicker::widget([
-					'model'=>$searchModel,
-					'attribute'=>'date',
-					'language' => 'th',
-					'options' => ['placeholder' => Yii::t('app', 'enterdate')],
-					'type' => DatePicker::TYPE_COMPONENT_APPEND,
-					'pickerButton' =>false,
-					//'size' => 'sm',
-					//'removeButton' =>false,
-					'pluginOptions' => [
-						'autoclose' => true,
-						'format' => 'yyyy-mm-dd'
-					]
-				]),
-			//'format' => 'html',
-			'format' => ['date']
-
-		],
-		[
-			'attribute' => 'we_creator',
-			'value' => 'weCr.userPro.nameconcatened'
-		],
-	 */
-        ?> <?php Pjax::end(); ?>
+        
     </div>
 
 </div>

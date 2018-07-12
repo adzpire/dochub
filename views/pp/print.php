@@ -12,6 +12,8 @@ use yii\helpers\Html;
                 <p align="center">แบบฟอร์มขอใช้งานบัญชี PSU Passport ชั่วคราวของคณะวิทยาการสื่อสาร
                     มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตปัตตานี</p></td>
         </tr>
+    </table>
+    <table width="650" border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
         <tr>
             <td class="tbcontent">
                 1. ข้าพเจ้า .....<a><?php echo $model->ppSt->getFullname('th'); ?></a>
@@ -29,6 +31,8 @@ use yii\helpers\Html;
                 ..<a><?php echo \Yii::$app->formatter->asDate($model->pp_edate, "long"); ?></a>..
             </td>
         </tr>
+    </table>
+    <table align="center" width="650" border="0" style="background-color:#fff;">
         <tr>
             <td><p><strong>ข้อกำหนดการใช้งานบัญชีผู้ใช้งานชั่วคราว</strong><strong> </strong><br/>
                 </p>

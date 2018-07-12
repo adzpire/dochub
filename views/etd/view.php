@@ -22,7 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 		<?= Html::a( Html::icon('pencil').' '.'แก้ไข', ['update', 'id' => $model->ID], ['class' => 'btn btn-primary panbtn']) ?>
-		<?= Html::a( Html::icon('open-file').' '.'สร้างใหม่', ['create'], ['class' => 'btn btn-info panbtn']) ?>
+		<?= Html::a( Html::icon('open-file').' '.'สร้างใหม่', ['create'], ['class' => 'btn btn-warning panbtn']) ?>
+		<?= Html::a( Html::icon('th-list').' '.'รายการ', ['index'], ['class' => 'btn btn-info panbtn']) ?>
 	</div>
 	<div class="panel-body">
     <?= DetailView::widget([
@@ -39,38 +40,61 @@ $this->params['breadcrumbs'][] = $this->title;
 				//'format' => ['date', 'long']
 			],
      			[
-				'label' => $model->attributeLabels()['ed_datechoice'],
-				'value' => $model->ed_datechoice,			
+				'label' => $model->attributeLabels()['ed_limitseat'],
+				'value' => $model->ed_limitseat,
 				//'format' => ['date', 'long']
 			],
      			[
 				'label' => $model->attributeLabels()['ed_note'],
 				'value' => $model->ed_note,			
-				//'format' => ['date', 'long']
+				'format' => ['html']
 			],
+            [
+                'label' => $model->attributeLabels()['ed_round'],
+                'value' => $model->ed_round,
+                //'format' => ['date', 'long']
+            ],
      			[
 				'label' => $model->attributeLabels()['ed_active_till'],
 				'value' => $model->ed_active_till,			
-				//'format' => ['date', 'long']
+				'format' => ['datetime']
 			],
+            [
+                'label' => 'รายการที่มีรอบเดียวกัน',
+                'value' => function($model){
+                    $data = $model->sameround;
+                    if(!empty($data)){
+                        $doc = '<ul>';
+                        foreach($data as $book) {
+                            $doc .= '<li>'.$book->ID.' : '.$book->ed_title.' : '.Html::a(Html::icon('share-alt'), ['view' , 'id'=> $book->ID], ['title' => Yii::t('app', 'ไปยังรายการ')]).'</li>';
+                        }
+                        $doc .= '</ul>';
+                        return $doc;
+                    }else{
+                        return 'ไม่มี';
+                    }
+//                             .' <span class="text-danger">('.($model->year+543).')</span>';
+                },
+                'format' => 'html',
+            ],
      			[
 				'label' => $model->attributeLabels()['created_at'],
 				'value' => $model->created_at,			
-				//'format' => ['date', 'long']
+				'format' => ['date', 'long']
 			],
      			[
 				'label' => $model->attributeLabels()['created_by'],
-				'value' => $model->created_by,			
+				'value' => $model->createdBy->fullname,
 				//'format' => ['date', 'long']
 			],
      			[
 				'label' => $model->attributeLabels()['updated_at'],
 				'value' => $model->updated_at,			
-				//'format' => ['date', 'long']
+				'format' => ['date', 'long']
 			],
      			[
 				'label' => $model->attributeLabels()['updated_by'],
-				'value' => $model->updated_by,			
+				'value' => $model->updatedBy->fullname,
 				//'format' => ['date', 'long']
 			],
     	],
